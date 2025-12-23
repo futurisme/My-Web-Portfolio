@@ -4,197 +4,159 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Fadhil Akbar — Futuristic Portfolio</title>
-  <meta name="description" content="Fadhil Akbar — Modern portfolio showcasing projects, skills and contact information in a futuristic style." />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <meta name="description" content="Engaging, interactive, professional portfolio of Fadhil Akbar. Futuristic, space-optimized UI." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <meta name="theme-color" content="#0b0f16">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
-
-  <header class="site-header">
+  <header class="site-header glass">
     <div class="container header-grid">
       <a class="brand" href="#" aria-label="Fadhil Akbar home">
-        <svg width="36" height="36" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#7C5CFF"/><stop offset="1" stop-color="#00E5FF"/></linearGradient></defs>
-          <rect rx="6" width="24" height="24" fill="url(#g)"></rect>
+        <svg width="34" height="34" viewBox="0 0 24 24" aria-hidden="true">
+          <defs>
+            <linearGradient id="g" x1="0" x2="1">
+              <stop offset="0" stop-color="#7C5CFF"/><stop offset="1" stop-color="#18F6FF"/>
+            </linearGradient>
+          </defs>
+          <rect rx="5" width="24" height="24" fill="url(#g)"></rect>
         </svg>
         <span class="brand-text">Fadhil Akbar</span>
       </a>
-
       <nav class="nav" aria-label="Primary navigation">
         <ul>
-          <li><a href="#about">About</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="#about" data-accordion="about">About</a></li>
+          <li><a href="#projects" data-accordion="projects">Projects</a></li>
+          <li><a href="#skills" data-accordion="skills">Skills</a></li>
+          <li><a href="#contact" data-accordion="contact">Contact</a></li>
         </ul>
       </nav>
-
       <div class="header-actions">
         <button id="themeToggle" class="btn-icon" aria-pressed="false" title="Toggle theme">
-          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path fill="currentColor" d="M12 3a1 1 0 010 2 7 7 0 100 14 1 1 0 010 2 9 9 0 110-18z"></path>
-          </svg>
+          <svg width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3a1 1 0 010 2 7 7 0 100 14 1 1 0 010 2 9 9 0 110-18z"/></svg>
         </button>
-        <a class="btn primary" href="assets/resume.pdf" download>Resume</a>
+        <a class="btn primary glow" href="assets/resume.pdf" download>Resume</a>
       </div>
     </div>
   </header>
 
   <main id="main" class="main">
-    <section class="hero static-bg" aria-label="Hero section">
-      <!-- static-bg class uses CSS neon/gradient, no JS -->
+    <section class="hero hero-engage static-bg glass">
+      <div class="hero-overlay"></div>
       <div class="container hero-grid">
         <div class="hero-content">
-          <h1 class="hero-title">Designing tomorrow's interfaces, today.</h1>
-          <p class="hero-lead">I build modern, high-performance web apps with clean UX and a futuristic aesthetic — blending motion, accessibility, and performance.</p>
-          <p class="hero-cta">
-            <a class="btn primary" href="#projects">View Projects</a>
-            <a class="btn ghost" href="#contact">Get in touch</a>
-          </p>
-          <ul class="quick-links" aria-hidden="true">
-            <li><strong>Location:</strong> Jakarta, ID</li>
-            <li><strong>Role:</strong> Frontend / Fullstack</li>
-            <li><strong>Availability:</strong> Open to work</li>
-          </ul>
+          <div class="avatar-xl card glass neon">
+            <img src="assets/me.jpg" alt="Fadhil Akbar" onerror="this.style.opacity=0.4;">
+          </div>
+          <h1>Fadhil Akbar</h1>
+          <h2 class="hero-title subheading">UI Engineer. Creative Technologist.</h2>
+          <div class="hero-cta-row">
+            <a class="btn primary glow" href="#projects" data-accordion="projects">Projects</a>
+            <a class="btn ghost" href="#contact" data-accordion="contact">Contact</a>
+          </div>
         </div>
+      </div>
+    </section>
 
-        <div class="hero-visual" aria-hidden="true">
-          <div class="card glass neon">
-            <div class="avatar">
-              <!-- Replace with your image -->
-              <img src="assets/me.jpg" alt="Fadhil Akbar" onerror="this.style.opacity=0.4;">
-            </div>
-            <div class="info">
-              <h3>Fadhil Akbar</h3>
-              <p>UI Engineer • Creative Technologist</p>
-            </div>
-            <div class="badges">
-              <span>React</span><span>Next.js</span><span>WebGL</span>
-            </div>
+    <div id="app-panels">
+      <section id="about" class="panel glass neon active" tabIndex="0" aria-labelledby="nav-about">
+        <header class="section-header">
+          <h2 id="nav-about">About</h2>
+        </header>
+        <div class="panel-content about-grid">
+          <div>
+            <p>🚀 I craft high-performance, accessible user interfaces with a futuristic touch. My passion is in micro-interactions, clean layouts, and blending motion with usability.</p>
+            <p>🔬 Always shipping new features, open to exciting remote & hybrid opportunities.</p>
           </div>
-        </div>
-      </div>
-    </section>
-    <!-- The rest is unchanged, see previous index.html (about, projects, skills, contact, footer) -->
-    <section id="about" class="section about container">
-      <header class="section-header">
-        <h2>About</h2>
-        <p class="muted">A short introduction</p>
-      </header>
-      <div class="about-grid">
-        <div class="about-text">
-          <p>I craft performant, accessible and delightful user experiences. My focus is on combining micro-interactions, motion, and a clean design language to communicate complex ideas simply.</p>
-          <p>I enjoy working with teams to build scalable frontend architectures and bringing prototypes to production with strong attention to code quality, testing and performance.</p>
-        </div>
-        <div class="about-stats">
-          <ul>
-            <li><strong>8+</strong><span>Years experience</span></li>
-            <li><strong>30+</strong><span>Projects shipped</span></li>
-            <li><strong>5</strong><span>Open-source contributions</span></li>
+          <ul class="about-stats">
+            <li><strong>8+</strong><span>Years exp</span></li>
+            <li><strong>30+</strong><span>Projects</span></li>
+            <li><strong>5</strong><span>FOSS contribs</span></li>
           </ul>
         </div>
-      </div>
-    </section>
-    <section id="projects" class="section projects container">
-      <header class="section-header">
-        <h2>Selected Projects</h2>
-        <p class="muted">A curated selection — more in the GitHub repo.</p>
-      </header>
-      <div class="cards-grid">
-        <article class="card project">
-          <div class="thumb" role="img" aria-label="Project A screenshot">
-            <img src="assets/project-1.jpg" alt="Project A screenshot" onerror="this.style.opacity=0.4;">
-          </div>
-          <div class="card-body">
-            <h3>Project A — Futuristic Dashboard</h3>
-            <p class="muted">Real-time analytics dashboard with immersive visuals and accessible data presentation.</p>
-            <p class="card-actions">
-              <a href="#" class="btn small">Live</a>
-              <a href="#" class="btn small ghost">Source</a>
-            </p>
-          </div>
-        </article>
-        <article class="card project">
-          <div class="thumb" role="img" aria-label="Project B screenshot">
-            <img src="assets/project-2.jpg" alt="Project B screenshot" onerror="this.style.opacity=0.4;">
-          </div>
-          <div class="card-body">
-            <h3>Project B — WebGL Experience</h3>
-            <p class="muted">Interactive 3D product configurator using lightweight WebGL and smart fallbacks.</p>
-            <p class="card-actions">
-              <a href="#" class="btn small">Live</a>
-              <a href="#" class="btn small ghost">Source</a>
-            </p>
-          </div>
-        </article>
-      </div>
-    </section>
-    <section id="skills" class="section skills container">
-      <header class="section-header">
-        <h2>Skills</h2>
-        <p class="muted">Tools, libraries and methodologies I use.</p>
-      </header>
-      <div class="skill-columns">
-        <ul>
-          <li>JavaScript / TypeScript</li>
-          <li>React / Next.js</li>
-          <li>CSS / PostCSS / Tailwind</li>
-        </ul>
-        <ul>
-          <li>WebGL / three.js</li>
-          <li>Performance & Accessibility</li>
-          <li>Testing / CI</li>
-        </ul>
-        <ul>
-          <li>Figma / Design Systems</li>
-          <li>Node.js / APIs</li>
-          <li>Serverless / Edge</li>
-        </ul>
-      </div>
-    </section>
-    <section id="contact" class="section contact container">
-      <header class="section-header">
-        <h2>Contact</h2>
-        <p class="muted">Let's build something future-forward.</p>
-      </header>
-      <div class="contact-grid">
-        <form class="contact-form" action="mailto:you@example.com" method="post" enctype="text/plain" aria-label="Contact form">
-          <div class="field-row">
+      </section>
+      <section id="projects" class="panel glass neon" tabIndex="0" aria-labelledby="nav-projects">
+        <header class="section-header">
+          <h2 id="nav-projects">Projects</h2>
+        </header>
+        <div class="panel-content projects cards-grid">
+          <article class="card project interactive">
+            <div class="thumb" role="img" aria-label="Dashboard App screenshot">
+              <img src="assets/project-1.jpg" alt="Project A" onerror="this.style.opacity=0.4;">
+            </div>
+            <div class="card-body">
+              <h3>Futuristic Dashboard</h3>
+              <p>Real-time analytics, glassy gradients, and accessible visualizations.</p>
+              <div class="card-actions">
+                <a href="#" class="btn small glow">Live</a>
+                <a href="#" class="btn small ghost">Source</a>
+              </div>
+            </div>
+          </article>
+          <article class="card project interactive">
+            <div class="thumb" role="img" aria-label="WebGL App screenshot">
+              <img src="assets/project-2.jpg" alt="Project B" onerror="this.style.opacity=0.4;">
+            </div>
+            <div class="card-body">
+              <h3>3D Product Explorer</h3>
+              <p>Immersive product view (WebGL), fallback for all devices.</p>
+              <div class="card-actions">
+                <a href="#" class="btn small glow">Live</a>
+                <a href="#" class="btn small ghost">Source</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+      <section id="skills" class="panel glass neon" tabIndex="0" aria-labelledby="nav-skills">
+        <header class="section-header">
+          <h2 id="nav-skills">Skills</h2>
+        </header>
+        <div class="panel-content skill-columns">
+          <ul>
+            <li>JavaScript/TypeScript</li>
+            <li>React / Next.js</li>
+            <li>CSS / Tailwind</li>
+          </ul>
+          <ul>
+            <li>WebGL / three.js</li>
+            <li>Performance/Testing</li>
+            <li>Accessibility</li>
+          </ul>
+          <ul>
+            <li>Figma/Design Systems</li>
+            <li>Node.js / APIs</li>
+            <li>Serverless/Edge</li>
+          </ul>
+        </div>
+      </section>
+      <section id="contact" class="panel glass neon" tabIndex="0" aria-labelledby="nav-contact">
+        <header class="section-header">
+          <h2 id="nav-contact">Contact</h2>
+        </header>
+        <div class="panel-content contact-grid">
+          <form class="contact-form" action="mailto:you@example.com" method="post" enctype="text/plain" aria-label="Contact form">
             <label for="name">Name</label>
             <input id="name" name="name" required placeholder="Your name">
-          </div>
-          <div class="field-row">
             <label for="email">Email</label>
             <input id="email" name="email" type="email" required placeholder="you@domain.com">
-          </div>
-          <div class="field-row">
             <label for="message">Message</label>
-            <textarea id="message" name="message" rows="5" placeholder="Brief message"></textarea>
-          </div>
-          <p class="form-actions">
-            <button type="submit" class="btn primary">Send</button>
-            <button type="reset" class="btn ghost">Reset</button>
-          </p>
-        </form>
-        <aside class="contact-details" aria-label="Contact details">
-          <p>Prefer email? <a href="mailto:you@example.com">you@example.com</a></p>
-          <p>Or connect via <a href="https://github.com/FadhilAkbarC" target="_blank" rel="noopener">GitHub</a> and <a href="#" target="_blank" rel="noopener">LinkedIn</a>.</p>
-          <div class="card glass small">
-            <h4>Availability</h4>
-            <p>Open to remote & hybrid opportunities. Comfortable mentoring and collaborating across time zones.</p>
-          </div>
-        </aside>
-      </div>
-    </section>
+            <textarea id="message" name="message" rows="4" placeholder="Brief message"></textarea>
+            <div class="form-actions">
+              <button type="submit" class="btn primary glow">Send</button>
+              <button type="reset" class="btn ghost">Reset</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
   </main>
-  <footer class="site-footer">
+
+  <footer class="site-footer glass">
     <div class="container footer-grid">
-      <div class="copyright">
-        <small>© <span id="year"></span> Fadhil Akbar — Built with care and a touch of neon.</small>
-      </div>
+      <small>© <span id="year"></span> Fadhil Akbar — Built with care and a touch of neon.</small>
       <div class="footer-links">
         <a href="#">Privacy</a>
         <a href="#">Terms</a>
