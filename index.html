@@ -3,133 +3,184 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Roblox Studio Explorer Final</title>
+<title>Roblox Studio - Explorer & Script Editor</title>
 <style>
-    /* --- KONFIGURASI TAMPILAN --- */
+    /* --- KONFIGURASI WARNA & VARIABEL --- */
     :root {
-        --bg-color: #222222;
+        --bg-dark: #1e1e1e;
+        --bg-darker: #171717;
+        --bg-light: #2d2d2d;
         --bg-hover: #2e2e2e;
-        --bg-select: #0d47a1; /* Biru tua khas seleksi */
-        --text-color: #cccccc;
-        --text-dim: #777777;
-        --line-color: #383838;
+        --bg-select: #094771;
+        --text-main: #cccccc;
+        --text-dim: #858585;
+        --border-color: #3e3e3e;
+        --accent-blue: #007acc;
+        --accent-green: #4ec9b0;
         
-        --row-height: 20px;   /* SANGAT RAPAT */
-        --font-size: 12px;    /* Ukuran font IDE standar */
-        --indent: 18px;       /* Indentasi per level */
+        --row-height: 22px;
+        --font-size: 13px;
+        --indent: 20px;
+        --editor-font: 'Consolas', 'Monaco', 'Courier New', monospace;
     }
 
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-        margin: 0;
-        padding: 0;
-        background-color: var(--bg-color);
-        color: var(--text-color);
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--bg-darker);
+        color: var(--text-main);
+        font-family: 'Segoe UI', system-ui, sans-serif;
         font-size: var(--font-size);
-        overflow: hidden; /* Mencegah scroll body, hanya container yg scroll */
+        overflow: hidden;
         height: 100vh;
         display: flex;
         flex-direction: column;
-        user-select: none; /* Agar teks tidak terblok saat klik cepat */
+        user-select: none;
         -webkit-font-smoothing: antialiased;
     }
 
-    /* HEADER STYLE */
-    .header {
-        height: 30px;
-        background-color: #2b2b2b;
-        border-bottom: 1px solid #111;
+    /* ===== TOPBAR (Menu Bar) ===== */
+    .topbar {
+        height: 40px;
+        background: linear-gradient(180deg, #2d2d2d 0%, #252525 100%);
+        border-bottom: 1px solid #1a1a1a;
         display: flex;
         align-items: center;
-        padding: 0 10px;
+        padding: 0 15px;
+        gap: 20px;
+        flex-shrink: 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .logo {
+        font-weight: 700;
+        font-size: 15px;
+        color: #fff;
+        letter-spacing: 0.5px;
+    }
+
+    .menu-item {
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background 0.2s;
+        font-size: 12px;
+        color: var(--text-dim);
+    }
+
+    .menu-item:hover { 
+        background: var(--bg-hover); 
+        color: var(--text-main);
+    }
+
+    /* ===== MAIN WORKSPACE (Split View) ===== */
+    .workspace {
+        flex: 1;
+        display: flex;
+        overflow: hidden;
+    }
+
+    /* --- EXPLORER PANEL (Kiri) --- */
+    .explorer-panel {
+        width: 300px;
+        min-width: 200px;
+        max-width: 500px;
+        background-color: var(--bg-dark);
+        border-right: 1px solid var(--border-color);
+        display: flex;
+        flex-direction: column;
+        transition: width 0.3s ease;
+    }
+
+    .panel-header {
+        height: 32px;
+        background-color: var(--bg-light);
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
         font-weight: 600;
         font-size: 11px;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.8px;
         text-transform: uppercase;
-        color: #fff;
+        color: var(--text-dim);
         flex-shrink: 0;
     }
 
-    /* CONTAINER UTAMA */
     .explorer-scroller {
         flex: 1;
-        overflow-y: overlay; /* Scrollbar overlay jika didukung */
-        overflow-x: auto;
-        padding-bottom: 40px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 8px 0;
     }
 
-    /* Custom Scrollbar (Tipis & Gelap) */
-    .explorer-scroller::-webkit-scrollbar { width: 10px; height: 10px; }
-    .explorer-scroller::-webkit-scrollbar-track { background: transparent; }
-    .explorer-scroller::-webkit-scrollbar-thumb { background: #444; border: 2px solid var(--bg-color); border-radius: 6px; }
-    .explorer-scroller::-webkit-scrollbar-thumb:hover { background: #555; }
-
-    /* STRUKTUR TREE */
-    ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
+    /* Custom Scrollbar */
+    .explorer-scroller::-webkit-scrollbar { width: 12px; }
+    .explorer-scroller::-webkit-scrollbar-track { background: var(--bg-dark); }
+    .explorer-scroller::-webkit-scrollbar-thumb { 
+        background: #3e3e3e; 
+        border: 3px solid var(--bg-dark); 
+        border-radius: 6px; 
     }
+    .explorer-scroller::-webkit-scrollbar-thumb:hover { background: #4e4e4e; }
 
-    /* Logika Indentasi & Garis Hierarki */
-    ul ul {
-        padding-left: var(--indent);
+    /* Tree Structure */
+    ul { list-style: none; padding: 0; margin: 0; }
+    ul ul { 
+        padding-left: var(--indent); 
         position: relative;
     }
 
-    /* Garis Vertikal (Guide Line) */
+    /* Guide Lines */
     ul ul::before {
         content: '';
         position: absolute;
         top: 0;
         bottom: 0;
-        left: 8px; /* Posisi garis pas di tengah indentasi */
-        border-left: 1px solid var(--line-color);
-        opacity: 0.6;
+        left: 10px;
+        border-left: 1px solid #383838;
+        opacity: 0.5;
     }
 
-    li {
-        position: relative;
-    }
+    li { position: relative; }
 
-    /* BARIS ITEM (ROW) */
     .row {
         display: flex;
         align-items: center;
         height: var(--row-height);
         cursor: pointer;
-        padding-right: 10px;
+        padding: 0 8px 0 4px;
         white-space: nowrap;
-        position: relative; /* Untuk z-index */
-        transition: background 0.05s ease;
+        transition: background 0.08s ease;
+        border-radius: 3px;
+        margin: 1px 4px;
     }
 
     .row:hover { background-color: var(--bg-hover); }
-    .row.selected { background-color: var(--bg-select); color: #fff; }
+    .row.selected { 
+        background-color: var(--bg-select); 
+        color: #fff; 
+    }
 
-    /* AREA KLIK PANAH & ICON */
     .toggle-box {
-        width: 16px;
+        width: 18px;
         height: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-        opacity: 0.7;
+        opacity: 0.6;
     }
 
     .toggle-box svg {
-        width: 8px; 
-        height: 8px; 
+        width: 10px; 
+        height: 10px; 
         fill: currentColor; 
-        transition: transform 0.15s ease;
+        transition: transform 0.2s ease;
     }
 
-    /* Rotasi Panah */
     li.collapsed > .row > .toggle-box svg { transform: rotate(-90deg); }
-    li.leaf > .row > .toggle-box { visibility: hidden; } /* Sembunyikan panah jika tidak ada anak */
+    li.leaf > .row > .toggle-box { visibility: hidden; }
 
     .icon-box {
         width: 16px;
@@ -143,59 +194,297 @@
     
     .icon-box svg { width: 100%; height: 100%; }
 
-    /* LABEL TEXT */
     .label {
         flex: 1;
         overflow: hidden;
         text-overflow: ellipsis;
         line-height: var(--row-height);
+        font-size: 13px;
     }
 
-    /* VISIBILITAS ANAK */
     li.collapsed > ul { display: none; }
 
+    /* --- EDITOR PANEL (Kanan) --- */
+    .editor-panel {
+        flex: 1;
+        background-color: var(--bg-darker);
+        display: flex;
+        flex-direction: column;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+
+    .editor-panel.active {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    /* Tab Bar */
+    .tabs-bar {
+        height: 36px;
+        background-color: var(--bg-light);
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        align-items: flex-end;
+        overflow-x: auto;
+        overflow-y: hidden;
+        flex-shrink: 0;
+    }
+
+    .tabs-bar::-webkit-scrollbar { height: 0; }
+
+    .tab {
+        min-width: 120px;
+        max-width: 200px;
+        height: 32px;
+        background-color: var(--bg-dark);
+        border-right: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+        cursor: pointer;
+        transition: background 0.15s;
+        position: relative;
+        gap: 8px;
+    }
+
+    .tab:hover { background-color: var(--bg-hover); }
+    
+    .tab.active {
+        background-color: var(--bg-darker);
+        border-bottom: 2px solid var(--accent-blue);
+        height: 34px;
+    }
+
+    .tab-icon {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+    }
+
+    .tab-label {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 12px;
+    }
+
+    .tab-close {
+        width: 16px;
+        height: 16px;
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.15s, background 0.15s;
+    }
+
+    .tab:hover .tab-close { opacity: 0.6; }
+    .tab-close:hover { opacity: 1 !important; background: rgba(255,255,255,0.1); }
+
+    /* Editor Content Area */
+    .editor-content {
+        flex: 1;
+        display: none;
+        overflow: hidden;
+    }
+
+    .editor-content.active { display: flex; }
+
+    .code-editor {
+        flex: 1;
+        display: flex;
+        overflow: hidden;
+        font-family: var(--editor-font);
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    /* Line Numbers */
+    .line-numbers {
+        background-color: var(--bg-dark);
+        color: var(--text-dim);
+        text-align: right;
+        padding: 16px 16px 16px 20px;
+        user-select: none;
+        border-right: 1px solid var(--border-color);
+        min-width: 60px;
+        overflow: hidden;
+    }
+
+    .line-numbers div {
+        height: 20px;
+        font-size: 13px;
+        color: #858585;
+    }
+
+    /* Code Area */
+    .code-area {
+        flex: 1;
+        padding: 16px;
+        overflow: auto;
+        background-color: var(--bg-darker);
+        color: var(--text-main);
+        white-space: pre;
+        font-family: inherit;
+        line-height: inherit;
+    }
+
+    .code-area::-webkit-scrollbar { width: 14px; height: 14px; }
+    .code-area::-webkit-scrollbar-track { background: var(--bg-darker); }
+    .code-area::-webkit-scrollbar-thumb { 
+        background: #424242; 
+        border: 3px solid var(--bg-darker); 
+        border-radius: 7px; 
+    }
+    .code-area::-webkit-scrollbar-thumb:hover { background: #4e4e4e; }
+
+    /* Syntax Highlighting */
+    .keyword { color: #569cd6; font-weight: 600; }
+    .string { color: #ce9178; }
+    .comment { color: #6a9955; font-style: italic; }
+    .function { color: #dcdcaa; }
+    .variable { color: #9cdcfe; }
+    .number { color: #b5cea8; }
+    .type { color: #4ec9b0; }
+
+    /* Empty State */
+    .empty-state {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-dim);
+        gap: 12px;
+    }
+
+    .empty-state svg {
+        width: 64px;
+        height: 64px;
+        opacity: 0.3;
+    }
+
+    .empty-state p {
+        font-size: 14px;
+        opacity: 0.7;
+    }
+
+    /* ===== RESPONSIVE DESIGN ===== */
+    @media (max-width: 768px) {
+        .explorer-panel {
+            position: absolute;
+            left: 0;
+            top: 40px;
+            bottom: 0;
+            width: 280px;
+            z-index: 100;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            box-shadow: 4px 0 16px rgba(0,0,0,0.5);
+        }
+
+        .explorer-panel.mobile-open {
+            transform: translateX(0);
+        }
+
+        .menu-item { font-size: 11px; padding: 6px 10px; }
+    }
+
+    @media (max-width: 480px) {
+        .topbar { padding: 0 10px; gap: 10px; }
+        .logo { font-size: 13px; }
+        .explorer-panel { width: 100%; }
+        .tab { min-width: 100px; padding: 0 8px; }
+    }
+
+    /* Mobile Toggle Button */
+    .mobile-toggle {
+        display: none;
+        width: 36px;
+        height: 36px;
+        background: var(--bg-light);
+        border-radius: 4px;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .mobile-toggle:hover { background: var(--bg-hover); }
+
+    @media (max-width: 768px) {
+        .mobile-toggle { display: flex; }
+    }
 </style>
 </head>
 <body>
 
-<div class="header">Explorer</div>
+<!-- TOP MENU BAR -->
+<div class="topbar">
+    <div class="mobile-toggle" onclick="toggleExplorer()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <rect y="3" width="20" height="2" rx="1"/>
+            <rect y="9" width="20" height="2" rx="1"/>
+            <rect y="15" width="20" height="2" rx="1"/>
+        </svg>
+    </div>
+    <div class="logo">ROBLOX STUDIO</div>
+    <div class="menu-item">File</div>
+    <div class="menu-item">Edit</div>
+    <div class="menu-item">View</div>
+    <div class="menu-item">Test</div>
+</div>
 
-<div class="explorer-scroller">
-    <ul id="tree-root">
-        </ul>
+<!-- MAIN WORKSPACE -->
+<div class="workspace">
+    <!-- EXPLORER PANEL (Kiri) -->
+    <div class="explorer-panel" id="explorerPanel">
+        <div class="panel-header">Explorer</div>
+        <div class="explorer-scroller">
+            <ul id="tree-root"></ul>
+        </div>
+    </div>
+
+    <!-- EDITOR PANEL (Kanan) -->
+    <div class="editor-panel" id="editorPanel">
+        <!-- Tab Bar -->
+        <div class="tabs-bar" id="tabsBar"></div>
+
+        <!-- Editor Content (akan di-generate dinamis) -->
+        <div id="editorContainer">
+            <!-- Empty State -->
+            <div class="empty-state">
+                <svg viewBox="0 0 64 64" fill="currentColor">
+                    <path d="M8 12h48v40H8z" opacity="0.2"/>
+                    <path d="M16 20h32M16 28h24M16 36h28"/>
+                </svg>
+                <p>Select a script to view code</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
-    // --- 1. OPTIMIZED ICON LIBRARY (SVG) ---
-    // Menggunakan path vector untuk ketajaman maksimal dan performa ringan.
+    // ===== ICON LIBRARY =====
     const ICONS = {
-        arrow: '<path d="M2 6L8 12L14 6H2Z" />',
+        arrow: '<path d="M2 6L8 12L14 6H2Z"/>',
         
-        // Colors
-        blue: '#52BAFF', green: '#00C853', yellow: '#FFC107', orange: '#FF9800', 
-        red: '#FF5252', purple: '#E040FB', white: '#E0E0E0', gray: '#9E9E9E',
-
-        // Services
         workspace: '<path fill="#52BAFF" d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 12a5 5 0 110-10 5 5 0 010 10z"/><circle fill="#52BAFF" cx="8" cy="8" r="2.5"/>',
         lighting: '<path fill="#FF9800" d="M8 1c-3 0-5 2-5 5 0 2 2 4 3 4.5V12h4v-1.5c1-.5 3-2.5 3-4.5 0-3-2-5-5-5zm-1 12h2v2H7v-2z"/>',
-        
-        // Storage
         repStorage: '<path fill="#FFC107" d="M1 4h14v10H1z"/><path fill="#fff" d="M5 8h6M8 5v6" opacity="0.8"/>',
         repFirst: '<path fill="#52BAFF" d="M1 4h14v10H1z"/><path fill="#fff" d="M4 6l3 3 3-3" opacity="0.9"/>',
         svrScript: '<path fill="#00C853" d="M2 3h12v11H2z"/><path fill="#fff" d="M4 5h8M4 8h6" opacity="0.7"/>',
         svrStorage: '<path fill="#52BAFF" d="M2 3h12v11H2z"/><rect fill="#fff" x="4" y="6" width="8" height="5" opacity="0.5"/>',
-        
-        // Items
         folder: '<path fill="#FFC107" d="M1 3h5l2 2h7v9H1z"/>',
         part: '<path fill="#E0E0E0" d="M2 4l6-3 6 3v8l-6 3-6-3V4z" opacity="0.9"/>',
         model: '<path fill="#fff" d="M2 13h4V9H2v4zm5 0h4V9H7v4zm5 0h4V9h-4v4zM2 8h4V4H2v4zm5 0h4V4H7v4zm5 0h4V4h-4v4z"/>',
-        
-        // Scripts
         script: '<path fill="#9E9E9E" d="M3 2h10v12H3z"/><path fill="#fff" d="M5 5h6M5 8h6M5 11h4"/>',
         local: '<path fill="#52BAFF" d="M3 2h10v12H3z"/><path fill="#fff" d="M8 10a2 2 0 100-4 2 2 0 000 4zm-2 3h4c0-1.5-1-2-2-2s-2 .5-2 2z"/>',
         module: '<path fill="#AB47BC" d="M3 2h10v12H3z"/><path fill="#fff" d="M5 11l2-2-2-2M9 11l-2-2 2-2"/>',
-        
-        // UI & Sound
         screenGui: '<rect stroke="#00C853" stroke-width="2" fill="none" x="2" y="3" width="12" height="10"/>',
         frame: '<rect fill="#E0E0E0" opacity="0.5" x="2" y="4" width="12" height="8"/>',
         sound: '<path fill="#E040FB" d="M2 5v6h4l5 5V0L6 5H2z"/>',
@@ -203,8 +492,341 @@
         players: '<path fill="#E0E0E0" d="M8 8a3 3 0 100-6 3 3 0 000 6zm-5 7h10c0-2-2-3-5-3s-5 1-5 3z"/>'
     };
 
-    // --- 2. DATA HIERARKI (COMPLEX & DEEP) ---
-    // n=name, i=icon key, c=children
+    // ===== MOCK CODE DATABASE =====
+    const CODE_DATABASE = {
+        "ControlScript": `-- Player Control Script
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Movement Configuration
+local WALK_SPEED = 16
+local JUMP_POWER = 50
+
+-- Initialize Controls
+function setupControls()
+    humanoid.WalkSpeed = WALK_SPEED
+    humanoid.JumpPower = JUMP_POWER
+    
+    print("Controls initialized for", player.Name)
+end
+
+-- Handle Input
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then return end
+    
+    if input.KeyCode == Enum.KeyCode.Space then
+        humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+    end
+end)
+
+setupControls()`,
+
+        "GameCore": `-- Server Game Core
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ServerStorage = game:GetService("ServerStorage")
+local Players = game:GetService("Players")
+
+local DataManager = require(script.DataManager)
+local Matchmaking = require(script.Matchmaking)
+
+-- Game Configuration
+local CONFIG = {
+    MAX_PLAYERS = 12,
+    ROUND_TIME = 300,
+    LOBBY_TIME = 15
+}
+
+local gameState = "Lobby"
+local activePlayers = {}
+
+-- Initialize Game Systems
+function initializeGame()
+    print("[GameCore] Initializing game systems...")
+    
+    DataManager.init()
+    Matchmaking.init(CONFIG.MAX_PLAYERS)
+    
+    setupPlayerEvents()
+    startGameLoop()
+end
+
+-- Player Connection Handler
+function setupPlayerEvents()
+    Players.PlayerAdded:Connect(function(player)
+        print(player.Name .. " joined the game")
+        table.insert(activePlayers, player)
+        DataManager.loadPlayerData(player)
+    end)
+    
+    Players.PlayerRemoving:Connect(function(player)
+        DataManager.savePlayerData(player)
+    end)
+end
+
+-- Main Game Loop
+function startGameLoop()
+    while true do
+        if gameState == "Lobby" then
+            wait(CONFIG.LOBBY_TIME)
+            if #activePlayers >= 2 then
+                gameState = "Playing"
+                Matchmaking.startMatch(activePlayers)
+            end
+        elseif gameState == "Playing" then
+            wait(CONFIG.ROUND_TIME)
+            gameState = "Ending"
+        end
+        
+        wait(1)
+    end
+end
+
+initializeGame()`,
+
+        "DataManager": `-- Data Management Module
+local DataStoreService = game:GetService("DataStoreService")
+local playerDataStore = DataStoreService:GetDataStore("PlayerData")
+
+local DataManager = {}
+local sessionData = {}
+
+-- Default Player Data Structure
+local DEFAULT_DATA = {
+    coins = 100,
+    level = 1,
+    experience = 0,
+    inventory = {},
+    settings = {
+        music = true,
+        sfx = true
+    }
+}
+
+-- Initialize Module
+function DataManager.init()
+    print("[DataManager] Module initialized")
+end
+
+-- Load Player Data
+function DataManager.loadPlayerData(player)
+    local success, data = pcall(function()
+        return playerDataStore:GetAsync(player.UserId)
+    end)
+    
+    if success and data then
+        sessionData[player.UserId] = data
+        print("Loaded data for", player.Name)
+    else
+        sessionData[player.UserId] = DEFAULT_DATA
+        print("Created new data for", player.Name)
+    end
+    
+    return sessionData[player.UserId]
+end
+
+-- Save Player Data
+function DataManager.savePlayerData(player)
+    local data = sessionData[player.UserId]
+    if not data then return end
+    
+    local success = pcall(function()
+        playerDataStore:SetAsync(player.UserId, data)
+    end)
+    
+    if success then
+        print("Saved data for", player.Name)
+    else
+        warn("Failed to save data for", player.Name)
+    end
+end
+
+-- Get Player Data
+function DataManager.getData(player)
+    return sessionData[player.UserId]
+end
+
+-- Update Player Data
+function DataManager.updateData(player, key, value)
+    local data = sessionData[player.UserId]
+    if data then
+        data[key] = value
+    end
+end
+
+return DataManager`,
+
+        "Matchmaking": `-- Matchmaking System Module
+local Matchmaking = {}
+
+local maxPlayers = 12
+local currentMatch = nil
+local queue = {}
+
+function Matchmaking.init(max)
+    maxPlayers = max
+    print("[Matchmaking] System ready - Max players:", maxPlayers)
+end
+
+function Matchmaking.addToQueue(player)
+    if not table.find(queue, player) then
+        table.insert(queue, player)
+        print(player.Name .. " added to queue")
+    end
+end
+
+function Matchmaking.removeFromQueue(player)
+    local index = table.find(queue, player)
+    if index then
+        table.remove(queue, index)
+    end
+end
+
+function Matchmaking.startMatch(players)
+    currentMatch = {
+        players = players,
+        startTime = os.time(),
+        status = "active"
+    }
+    
+    print("[Match Started] Players:", #players)
+    
+    for _, player in pairs(players) do
+        -- Teleport to arena, setup teams, etc
+        Matchmaking.removeFromQueue(player)
+    end
+end
+
+function Matchmaking.endMatch()
+    if currentMatch then
+        print("[Match Ended] Duration:", os.time() - currentMatch.startTime)
+        currentMatch = nil
+    end
+end
+
+return Matchmaking`,
+
+        "LoadingSystem": `-- Loading Screen System
+local ReplicatedFirst = game:GetService("ReplicatedFirst")
+local ContentProvider = game:GetService("ContentProvider")
+local Players = game:GetService("Players")
+
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Remove Default Loading Screen
+ReplicatedFirst:RemoveDefaultLoadingScreen()
+
+-- Create Custom Loading GUI
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "LoadingScreen"
+screenGui.IgnoreGuiInset = true
+screenGui.Parent = playerGui
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(1, 0, 1, 0)
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+frame.Parent = screenGui
+
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(0, 400, 0, 60)
+titleLabel.Position = UDim2.new(0.5, -200, 0.4, 0)
+titleLabel.BackgroundTransparency = 1
+titleLabel.Text = "LOADING GAME..."
+titleLabel.TextSize = 32
+titleLabel.Font = Enum.Font.GothamBold
+titleLabel.TextColor3 = Color3.new(1, 1, 1)
+titleLabel.Parent = frame
+
+local progressBar = Instance.new("Frame")
+progressBar.Size = UDim2.new(0, 400, 0, 8)
+progressBar.Position = UDim2.new(0.5, -200, 0.5, 0)
+progressBar.BackgroundColor3 = Color3.fromRGB(0, 122, 204)
+progressBar.BorderSizePixel = 0
+progressBar.Parent = frame
+
+-- Preload Game Assets
+local assets = {}
+for _, descendant in pairs(game:GetDescendants()) do
+    if descendant:IsA("ImageLabel") or descendant:IsA("Sound") then
+        table.insert(assets, descendant)
+    end
+end
+
+ContentProvider:PreloadAsync(assets, function(assetId, status)
+    local progress = (#assets > 0) and (100 / #assets) or 100
+    progressBar.Size = UDim2.new(0, math.min(400, progressBar.AbsoluteSize.X + (400 * progress / 100)), 0, 8)
+end)
+
+-- Fade Out
+wait(0.5)
+screenGui:Destroy()
+print("Loading complete!")`,
+
+        "Commands": `-- Admin Commands Handler
+local Commands = {}
+
+local prefix = "!"
+local admins = {123456789, 987654321} -- User IDs
+
+-- Command Registry
+local commandList = {
+    ["tp"] = function(player, args)
+        if #args < 1 then return end
+        local targetName = args[1]
+        local target = game.Players:FindFirstChild(targetName)
+        
+        if target and target.Character then
+            player.Character:MoveTo(target.Character.HumanoidRootPart.Position)
+        end
+    end,
+    
+    ["speed"] = function(player, args)
+        local speed = tonumber(args[1]) or 16
+        player.Character.Humanoid.WalkSpeed = speed
+    end,
+    
+    ["kill"] = function(player, args)
+        local targetName = args[1]
+        local target = game.Players:FindFirstChild(targetName)
+        
+        if target and target.Character then
+            target.Character.Humanoid.Health = 0
+        end
+    end,
+    
+    ["respawn"] = function(player)
+        player:LoadCharacter()
+    end
+}
+
+-- Check if player is admin
+function Commands.isAdmin(player)
+    return table.find(admins, player.UserId) ~= nil
+end
+
+-- Parse and execute command
+function Commands.execute(player, message)
+    if not message:sub(1, 1) == prefix then return end
+    if not Commands.isAdmin(player) then return end
+    
+    local args = message:sub(2):split(" ")
+    local cmd = table.remove(args, 1):lower()
+    
+    if commandList[cmd] then
+        commandList[cmd](player, args)
+        print("[Admin]", player.Name, "executed:", cmd)
+    end
+end
+
+return Commands`
+    };
+
+    // ===== DATA HIERARKI =====
     const data = [
         { n: "Workspace", i: "workspace", c: [
             { n: "Camera", i: "part" },
@@ -220,14 +842,14 @@
         { n: "Players", i: "players", c: [
             { n: "LocalPlayer", i: "players", c: [
                 { n: "PlayerGui", i: "folder", c: [{n: "MainHUD", i: "screenGui"}] },
-                { n: "PlayerScripts", i: "folder", c: [{n: "ControlScript", i: "local"}]}
+                { n: "PlayerScripts", i: "folder", c: [{n: "ControlScript", i: "local", isScript: true}]}
             ]}
         ]},
         { n: "Lighting", i: "lighting", c: [
             { n: "Sky", i: "part" }, { n: "Bloom", i: "part" }, { n: "SunRays", i: "part" }
         ]},
         { n: "ReplicatedFirst", i: "repFirst", c: [
-            { n: "LoadingSystem", i: "local", c: [{n: "Config", i: "module"}]}
+            { n: "LoadingSystem", i: "local", isScript: true, c: [{n: "Config", i: "module"}]}
         ]},
         { n: "ReplicatedStorage", i: "repStorage", c: [
             { n: "Shared", i: "folder", c: [
@@ -236,11 +858,11 @@
             ]}
         ]},
         { n: "ServerScriptService", i: "svrScript", c: [
-            { n: "GameCore", i: "script", c: [
-                { n: "DataManager", i: "module" },
-                { n: "Matchmaking", i: "module" }
+            { n: "GameCore", i: "script", isScript: true, c: [
+                { n: "DataManager", i: "module", isScript: true },
+                { n: "Matchmaking", i: "module", isScript: true }
             ]},
-            { n: "AdminSystem", i: "folder", c: [{n: "Commands", i: "script"}]}
+            { n: "AdminSystem", i: "folder", c: [{n: "Commands", i: "script", isScript: true}]}
         ]},
         { n: "ServerStorage", i: "svrStorage", c: [
             { n: "Maps", i: "folder", c: [{n: "Map1", i: "model"}, {n: "Map2", i: "model"}]}
@@ -259,18 +881,20 @@
         ]}
     ];
 
-    // --- 3. HIGH PERFORMANCE RENDERER ---
+    // ===== STATE MANAGEMENT =====
+    let openTabs = [];
+    let activeTabId = null;
+
+    // ===== BUILD EXPLORER TREE =====
     function buildHTML(nodes) {
         let html = '';
-        for (let i = 0; i < nodes.length; i++) {
-            const node = nodes[i];
+        for (let node of nodes) {
             const hasKids = node.c && node.c.length > 0;
             const iconSvg = ICONS[node.i] || ICONS.part;
+            const scriptClass = node.isScript ? ' data-script="true"' : '';
             
-            // Render satu item (li) dan rekursif untuk anak-anaknya (ul)
-            // Class 'expanded' default terbuka. Gunakan 'collapsed' jika ingin tertutup default.
             html += `
-            <li class="${hasKids ? 'expanded' : 'leaf'}">
+            <li class="${hasKids ? 'expanded' : 'leaf'}" data-name="${node.n}"${scriptClass}>
                 <div class="row">
                     <div class="toggle-box">
                         ${hasKids ? `<svg viewBox="0 0 16 16">${ICONS.arrow}</svg>` : ''}
@@ -286,33 +910,189 @@
         return html;
     }
 
-    // Injeksi HTML sekaligus (Tercepat)
     document.getElementById('tree-root').innerHTML = buildHTML(data);
 
-    // --- 4. LOGIKA INTERAKSI (SMART DETECTOR) ---
+    // ===== SYNTAX HIGHLIGHTER =====
+    function highlightCode(code) {
+        return code
+            .replace(/\b(local|function|end|if|then|else|elseif|for|while|do|return|true|false|nil|and|or|not|in|repeat|until)\b/g, '<span class="keyword">$1</span>')
+            .replace(/"([^"]*)"/g, '<span class="string">"$1"</span>')
+            .replace(/'([^']*)'/g, '<span class="string">\'$1\'</span>')
+            .replace(/--(.+)$/gm, '<span class="comment">--$1</span>')
+            .replace(/\b([A-Z][a-zA-Z0-9]*)\b/g, '<span class="type">$1</span>')
+            .replace(/\b(\d+)\b/g, '<span class="number">$1</span>');
+    }
+
+    // ===== OPEN SCRIPT IN EDITOR =====
+    function openScript(scriptName, iconType) {
+        // Check if already open
+        const existing = openTabs.find(tab => tab.name === scriptName);
+        if (existing) {
+            switchTab(existing.id);
+            return;
+        }
+
+        // Get code from database
+        const code = CODE_DATABASE[scriptName] || `-- ${scriptName}\n-- No code available`;
+        
+        // Create tab
+        const tabId = 'tab-' + Date.now();
+        const tab = {
+            id: tabId,
+            name: scriptName,
+            icon: iconType,
+            code: code
+        };
+        
+        openTabs.push(tab);
+        renderTabs();
+        renderEditor(tab);
+        switchTab(tabId);
+        
+        // Show editor panel
+        document.getElementById('editorPanel').classList.add('active');
+    }
+
+    // ===== RENDER TABS =====
+    function renderTabs() {
+        const tabsBar = document.getElementById('tabsBar');
+        tabsBar.innerHTML = openTabs.map(tab => `
+            <div class="tab ${tab.id === activeTabId ? 'active' : ''}" data-tab-id="${tab.id}" onclick="switchTab('${tab.id}')">
+                <div class="tab-icon">
+                    <svg viewBox="0 0 16 16">${ICONS[tab.icon]}</svg>
+                </div>
+                <span class="tab-label">${tab.name}</span>
+                <div class="tab-close" onclick="event.stopPropagation(); closeTab('${tab.id}')">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+                        <path d="M1 1L11 11M11 1L1 11" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // ===== RENDER EDITOR CONTENT =====
+    function renderEditor(tab) {
+        const container = document.getElementById('editorContainer');
+        
+        // Remove empty state if exists
+        const emptyState = container.querySelector('.empty-state');
+        if (emptyState) emptyState.remove();
+        
+        // Check if editor already exists
+        if (!document.getElementById(tab.id)) {
+            const lines = tab.code.split('\n');
+            const lineNumbers = lines.map((_, i) => `<div>${i + 1}</div>`).join('');
+            const highlightedCode = highlightCode(tab.code);
+            
+            const editorHTML = `
+                <div class="editor-content" id="${tab.id}">
+                    <div class="code-editor">
+                        <div class="line-numbers">${lineNumbers}</div>
+                        <div class="code-area">${highlightedCode}</div>
+                    </div>
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', editorHTML);
+        }
+    }
+
+    // ===== SWITCH TAB =====
+    function switchTab(tabId) {
+        activeTabId = tabId;
+        
+        // Update tab styles
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        const activeTab = document.querySelector(`[data-tab-id="${tabId}"]`);
+        if (activeTab) activeTab.classList.add('active');
+        
+        // Update editor visibility
+        document.querySelectorAll('.editor-content').forEach(e => e.classList.remove('active'));
+        const activeEditor = document.getElementById(tabId);
+        if (activeEditor) activeEditor.classList.add('active');
+    }
+
+    // ===== CLOSE TAB =====
+    function closeTab(tabId) {
+        const index = openTabs.findIndex(tab => tab.id === tabId);
+        if (index === -1) return;
+        
+        openTabs.splice(index, 1);
+        
+        // Remove editor content
+        const editor = document.getElementById(tabId);
+        if (editor) editor.remove();
+        
+        // Switch to another tab or hide editor
+        if (openTabs.length > 0) {
+            const newActiveTab = openTabs[Math.max(0, index - 1)];
+            switchTab(newActiveTab.id);
+            renderTabs();
+        } else {
+            activeTabId = null;
+            document.getElementById('editorPanel').classList.remove('active');
+            document.getElementById('tabsBar').innerHTML = '';
+            document.getElementById('editorContainer').innerHTML = `
+                <div class="empty-state">
+                    <svg viewBox="0 0 64 64" fill="currentColor">
+                        <path d="M8 12h48v40H8z" opacity="0.2"/>
+                        <path d="M16 20h32M16 28h24M16 36h28"/>
+                    </svg>
+                    <p>Select a script to view code</p>
+                </div>
+            `;
+        }
+    }
+
+    // ===== TREE INTERACTION =====
     const treeRoot = document.getElementById('tree-root');
 
     treeRoot.addEventListener('click', (e) => {
-        // Deteksi klik pada baris (row)
         const row = e.target.closest('.row');
         if (!row) return;
 
-        // 1. Logika Seleksi (Highlight Biru)
+        // Selection
         const currentSelected = treeRoot.querySelector('.selected');
         if (currentSelected) currentSelected.classList.remove('selected');
         row.classList.add('selected');
 
-        // 2. Logika Expand/Collapse
-        // Mengambil elemen parent <li>
         const li = row.parentElement;
         
-        // Cek apakah item ini punya anak (bukan leaf)
-        if (!li.classList.contains('leaf')) {
-            // Toggle class collapsed
-            li.classList.toggle('collapsed');
+        // Check if it's a script
+        if (li.dataset.script === 'true') {
+            const scriptName = li.dataset.name;
+            const iconType = li.querySelector('.icon-box svg path') ? 
+                             Array.from(li.querySelector('.icon-box svg').children)[0].getAttribute('fill') : 'script';
             
-            // Opsional: Jika ingin menutup, kita juga hapus expanded agar sinkron visual panah
-            // (CSS sudah menangani rotasi berdasarkan .collapsed)
+            // Determine icon type
+            let icon = 'script';
+            if (scriptName.includes('Local') || li.querySelector('path[fill="#52BAFF"]')) icon = 'local';
+            else if (scriptName.includes('Module') || li.querySelector('path[fill="#AB47BC"]')) icon = 'module';
+            
+            openScript(scriptName, icon);
+        }
+
+        // Expand/Collapse
+        if (!li.classList.contains('leaf')) {
+            li.classList.toggle('collapsed');
+        }
+    });
+
+    // ===== MOBILE TOGGLE =====
+    function toggleExplorer() {
+        document.getElementById('explorerPanel').classList.toggle('mobile-open');
+    }
+
+    // Close explorer when clicking outside on mobile
+    document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+            const explorerPanel = document.getElementById('explorerPanel');
+            const mobileToggle = document.querySelector('.mobile-toggle');
+            
+            if (!explorerPanel.contains(e.target) && !mobileToggle.contains(e.target)) {
+                explorerPanel.classList.remove('mobile-open');
+            }
         }
     });
 
