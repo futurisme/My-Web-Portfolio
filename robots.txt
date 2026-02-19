@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fadhilakbarc.github.io/my-web-portfolio/sitemap.xml
