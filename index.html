@@ -3,10 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Learning Portfolio</title>
+  <title>Fadhil Akbar Cariearsa | Fadhil Akbar | Cariearsa Official Portfolio</title>
+  <meta name="description" content="Official Fadhil Akbar Cariearsa portfolio for Fadhil and Fadhil Akbar search queries. Explore Cariearsa projects, TypeScript JavaScript HTML CSS Luau Lua progress, and verified profile information." />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="theme-color" content="#060913" />
+  <meta name="keywords" content="Fadhil, Fadhil Akbar, Cariearsa, Fadhil Akbar Cariearsa, Fadhil portfolio" />
+  <meta name="author" content="Fadhil Akbar" />
+  <link rel="canonical" href="https://fadhil.qzz.io/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Fadhil Akbar Cariearsa | Official Portfolio" />
+  <meta property="og:description" content="Official Fadhil Akbar Cariearsa portfolio for Fadhil and Fadhil Akbar searches, featuring projects, skills, and web/game tools." />
+  <meta property="og:url" content="https://fadhil.qzz.io/" />
+  <meta property="og:site_name" content="Fadhil Learning Portfolio" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Fadhil Akbar Cariearsa | Official Portfolio" />
+  <meta name="twitter:description" content="Find Fadhil Akbar Cariearsa projects, skills, and portfolio links in one official page." />
+  <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="//fonts.gstatic.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet" />
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" as="style" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" />
+  </noscript>
   <style>
     :root {
       --bg: #060913;
@@ -79,7 +99,8 @@
       flex-direction: column;
       gap: 10px;
       min-height: 0;
-      overflow: hidden;
+      overflow: auto;
+      scrollbar-width: thin;
     }
 
     .cyber-title {
@@ -88,16 +109,18 @@
     }
 
     .cyber-typed {
-      width: fit-content;
+      display: inline-block;
+      width: var(--type-width, 24ch);
       max-width: 100%;
       font-family: "Audiowide", "Orbitron", system-ui, sans-serif;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       white-space: nowrap;
       overflow: hidden;
+      clip-path: inset(0 100% 0 0);
       border-right: 2px solid rgba(86, 222, 255, 0.95);
       text-shadow: 0 0 10px rgba(86, 222, 255, 0.48), 0 0 18px rgba(184, 111, 255, 0.28);
-      will-change: width, opacity;
+      will-change: clip-path, opacity;
       animation:
         type-cyber var(--typing-speed, 1.55s) steps(var(--type-steps, 24), end) infinite,
         cursor-blink 0.27s steps(1, end) infinite,
@@ -200,6 +223,29 @@
       justify-content: flex-start;
     }
 
+    .seo-block {
+      margin-top: 2px;
+      padding: 8px;
+      border: 1px solid rgba(86, 222, 255, 0.25);
+      border-radius: 8px;
+      background: rgba(8, 16, 30, 0.45);
+      display: grid;
+      gap: 6px;
+    }
+
+    .seo-title {
+      font-size: clamp(0.6rem, 1vw, 0.78rem);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #d6f4ff;
+    }
+
+    .seo-copy {
+      font-size: clamp(0.54rem, 0.95vw, 0.68rem);
+      line-height: 1.45;
+      color: #bde8ff;
+    }
+
     .links {
       display: grid;
       gap: 7px;
@@ -232,10 +278,10 @@
     }
 
     @keyframes type-cyber {
-      0% { width: 0; }
-      68% { width: var(--type-width, 24ch); }
-      82% { width: var(--type-width, 24ch); }
-      100% { width: 0; }
+      0% { clip-path: inset(0 100% 0 0); }
+      68% { clip-path: inset(0 0 0 0); }
+      82% { clip-path: inset(0 0 0 0); }
+      100% { clip-path: inset(0 100% 0 0); }
     }
 
     @keyframes cursor-blink {
@@ -256,380 +302,28 @@
       50% { transform: translateX(0.2px); }
     }
 
-    @media (max-width: 900px) {
-      .shell {
-        max-width: 560px;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto;
-      }
-
-      .lang-grid,
-      .tool-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-
-      .tool-chip,
-      .lang-chip { min-height: 36px; }
-    }
-
-    @media (max-width: 620px) {
-      .viewport { padding: 6px; }
-
-      .shell {
-        border-radius: 14px;
-        padding: 8px;
-        gap: 7px;
-      }
-
-      .panel {
-        padding: 8px;
-        gap: 7px;
-      }
-
-      .hello {
-        --typing-speed: 1.2s;
-        font-size: clamp(0.76rem, 4.1vw, 1.02rem);
-      }
-
-      .section-title {
-        --typing-speed: 1.1s;
-        font-size: clamp(0.66rem, 3.6vw, 0.92rem);
-      }
-
-      .learning-line {
-        font-size: clamp(0.44rem, 1.9vw, 0.54rem);
-      }
-
-      .lang-grid,
-      .tool-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px; }
-
-      .lang-chip,
-      .tool-chip {
-        min-height: 31px;
-        font-size: 0.5rem;
-        padding: 5px 6px;
-      }
-
-      .tool-chip { min-height: 35px; }
-
-      .tool-category { font-size: 0.43rem; }
-
-      .tool-name { font-size: 0.49rem; }
-
-      .link-item {
-        padding: 7px 8px;
-        font-size: clamp(0.5rem, 2.05vw, 0.61rem);
-      }
-    }
-  </style>
-</head>
-<body>
-  <main class="viewport">
-    <section class="shell" aria-label="Cyber learning portfolio">
-      <article class="panel">
-        <header class="cyber-title">
-          <h1 class="hello cyber-typed">Hello, My name is Fadhil</h1>
-          <p class="learning-line">I am currently learning TypeScript, JavaScript, HTML, CSS, Luau, Lua, and Python</p>
-        </header>
-
-        <section class="lang-grid" aria-label="Programming languages I am learning">
-          <div class="lang-chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5z"/><path d="M9 9h2m-2 4h6m-6 4h4"/></svg>Typescript</div>
-          <div class="lang-chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M8 8h3v8M15 10c0-1-1-2-2-2s-2 1-2 2c0 3 4 2 4 5 0 1-1 2-2 2s-2-1-2-2"/></svg>Javascript</div>
-          <div class="lang-chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="M7 9h10M7 13h10M7 17h6"/></svg>Html</div>
-          <div class="lang-chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h5M8 16h7"/></svg>Css</div>
-          <div class="lang-chip"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4v16M6 8h12M6 16h12"/></svg>Luau</div>
-          <div class="lang-chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h12v12H6z"/><path d="M9 9h6v6H9z"/></svg>Lua</div>
-          <div class="lang-chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10l3 5v11H4V9z"/><path d="M9 13h6M9 17h3"/></svg>Python</div>
-        </section>
-
-        <p class="learning-line">Tools and Frameworks I Use</p>
-        <section class="tool-grid" aria-label="Tools and frameworks I use">
-          <div class="tool-chip"><span class="tool-category">Game Dev</span><span class="tool-name">Roblox Studio</span></div>
-          <div class="tool-chip"><span class="tool-category">Sync Tool</span><span class="tool-name">Rojo</span></div>
-          <div class="tool-chip"><span class="tool-category">Editor</span><span class="tool-name">VS Code</span></div>
-          <div class="tool-chip"><span class="tool-category">Framework</span><span class="tool-name">Next.js</span></div>
-          <div class="tool-chip"><span class="tool-category">Hosting</span><span class="tool-name">Railway</span></div>
-          <div class="tool-chip"><span class="tool-category">Hosting</span><span class="tool-name">Vercel</span></div>
-          <div class="tool-chip"><span class="tool-category">Database</span><span class="tool-name">PostgreSQL</span></div>
-          <div class="tool-chip"><span class="tool-category">Database</span><span class="tool-name">MongoDB</span></div>
-          <div class="tool-chip"><span class="tool-category">Game Engine</span><span class="tool-name">Godot Engine</span></div>
-          <div class="tool-chip"><span class="tool-category">Platform</span><span class="tool-name">GitHub</span></div>
-          <div class="tool-chip"><span class="tool-category">Versioning</span><span class="tool-name">Git</span></div>
-          <div class="tool-chip"><span class="tool-category">AI Tool</span><span class="tool-name">Codex</span></div>
-          <div class="tool-chip"><span class="tool-category">Builder</span><span class="tool-name">F3X</span></div>
-          <div class="tool-chip"><span class="tool-category">Toolkit</span><span class="tool-name">Lemonade</span></div>
-        </section>
-      </article>
-
-      <article class="panel portfolio-panel">
-        <h2 class="section-title cyber-typed">My Learning Portfolio</h2>
-        <p class="learning-line">Links (Click / Tap)</p>
-        <div class="links">
-          <a class="link-item" href="https://MindMapper.qzz.io" target="_blank" rel="noopener noreferrer">https://MindMapper.qzz.io</a>
-          <a class="link-item" href="https://WebWorlds.vercel.app" target="_blank" rel="noopener noreferrer">https://WebWorlds.vercel.app</a>
-          <a class="link-item" href="https://TemplateDatabases.vercel.app" target="_blank" rel="noopener noreferrer">https://TemplateDatabases.vercel.app</a>
-        </div>
-      </article>
-    </section>
-  </main>
-</body>
-</html>
-/workspace/My-Web-Portfolio$ /bin/bash -lc sed -n '1,220p' index.html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Learning Portfolio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg: #060913;
-      --bg-card: rgba(12, 20, 38, 0.75);
-      --line: rgba(86, 222, 255, 0.35);
-      --text: #e8f8ff;
-      --muted: #9ad1e8;
-      --accent: #56deff;
-      --accent-2: #b86fff;
-      --radius: 14px;
-      --shadow: 0 0 0 1px rgba(86, 222, 255, 0.22), 0 12px 32px rgba(39, 134, 255, 0.22);
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html,
-    body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      font-family: "Orbitron", "Segoe UI", system-ui, sans-serif;
-      background:
-        radial-gradient(circle at 10% 10%, rgba(53, 130, 255, 0.2), transparent 48%),
-        radial-gradient(circle at 90% 90%, rgba(184, 111, 255, 0.2), transparent 52%),
-        linear-gradient(145deg, #04070f 0%, #080f1d 55%, #0b1222 100%);
-      color: var(--text);
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background-image:
-        linear-gradient(rgba(86, 222, 255, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(86, 222, 255, 0.05) 1px, transparent 1px);
-      background-size: 26px 26px;
-      opacity: 0.25;
-    }
-
-    .viewport {
-      height: 100dvh;
-      padding: clamp(8px, 1.5vw, 14px);
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-    }
-
-    .shell {
-      width: min(1080px, 100%);
-      height: min(100%, 760px);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: linear-gradient(165deg, rgba(9, 17, 34, 0.88), rgba(5, 12, 23, 0.95));
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.44), 0 0 24px rgba(86, 222, 255, 0.15);
-      padding: clamp(10px, 1.5vw, 16px);
-      display: grid;
-      grid-template-columns: 1.08fr 1fr;
-      gap: clamp(8px, 1.2vw, 12px);
-      overflow: hidden;
-    }
-
-    .panel {
-      border-radius: var(--radius);
-      border: 1px solid var(--line);
-      background: var(--bg-card);
-      box-shadow: var(--shadow);
-      padding: clamp(10px, 1.4vw, 14px);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      min-height: 0;
-      overflow: hidden;
-    }
-
-    .cyber-title {
-      display: grid;
-      gap: 6px;
-    }
-
-    .cyber-typed {
-      width: fit-content;
-      max-width: 100%;
-      font-family: "Audiowide", "Orbitron", system-ui, sans-serif;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 2px solid rgba(86, 222, 255, 0.95);
-      text-shadow: 0 0 10px rgba(86, 222, 255, 0.48), 0 0 18px rgba(184, 111, 255, 0.28);
-      will-change: width, opacity;
-      animation:
-        type-cyber var(--typing-speed, 1.55s) steps(var(--type-steps, 24), end) infinite,
-        cursor-blink 0.27s steps(1, end) infinite,
-        cyber-flicker 1.1s steps(2, end) infinite,
-        scan-jitter 2.2s steps(2, end) infinite;
-    }
-
-    .hello {
-      --type-steps: 24;
-      --typing-speed: 1.45s;
-      --type-width: 24ch;
-      font-size: clamp(1.02rem, 2.35vw, 1.78rem);
-      line-height: 1.15;
-      color: #e8fcff;
-    }
-
-    .section-title {
-      --type-steps: 21;
-      --typing-speed: 1.35s;
-      --type-width: 21ch;
-      font-size: clamp(0.84rem, 1.8vw, 1.25rem);
-      line-height: 1.15;
-      color: #f2fbff;
-    }
-
-    .learning-line {
-      font-size: clamp(0.56rem, 1.08vw, 0.76rem);
-      color: var(--muted);
-      letter-spacing: 0.11em;
-      text-transform: uppercase;
-      line-height: 1.3;
-    }
-
-    .lang-grid,
-    .tool-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 6px;
-    }
-
+    .panel,
+    .link-item,
     .lang-chip,
     .tool-chip {
-      border: 1px solid rgba(86, 222, 255, 0.35);
-      border-radius: 9px;
-      background: linear-gradient(135deg, rgba(16, 35, 62, 0.78), rgba(15, 25, 47, 0.86));
-      box-shadow: inset 0 0 0 1px rgba(86, 222, 255, 0.1);
-      min-height: 34px;
-      padding: 6px 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      color: #ecfbff;
-      font-size: clamp(0.56rem, 0.95vw, 0.7rem);
-      text-transform: uppercase;
-      letter-spacing: 0.035em;
-      overflow: hidden;
+      content-visibility: auto;
+      contain-intrinsic-size: auto 200px;
     }
 
-    .lang-chip svg {
-      flex-shrink: 0;
-      width: 13px;
-      height: 13px;
-      stroke: var(--accent);
-      fill: none;
-      stroke-width: 1.8;
-      filter: drop-shadow(0 0 4px rgba(86, 222, 255, 0.42));
-    }
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
 
-    .tool-chip {
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: center;
-      gap: 1px;
-      min-height: 40px;
-      border-color: rgba(184, 111, 255, 0.32);
-      background: linear-gradient(135deg, rgba(30, 23, 56, 0.9), rgba(14, 30, 60, 0.86));
-    }
-
-    .tool-category {
-      font-size: 0.5rem;
-      color: #b9dfff;
-      opacity: 0.8;
-      letter-spacing: 0.09em;
-      text-transform: uppercase;
-      line-height: 1;
-    }
-
-    .tool-name {
-      font-size: clamp(0.54rem, 0.9vw, 0.68rem);
-      color: #f2f9ff;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 100%;
-      line-height: 1.15;
-    }
-
-    .portfolio-panel {
-      gap: 10px;
-      justify-content: flex-start;
-    }
-
-    .links {
-      display: grid;
-      gap: 7px;
-      width: 100%;
-    }
-
-    .link-item {
-      display: block;
-      width: 100%;
-      padding: 9px 10px;
-      border-radius: 9px;
-      text-decoration: none;
-      border: 1px solid rgba(184, 111, 255, 0.42);
-      color: #f7f2ff;
-      background: linear-gradient(135deg, rgba(66, 28, 112, 0.42), rgba(19, 27, 57, 0.75));
-      font-size: clamp(0.58rem, 1.02vw, 0.74rem);
-      letter-spacing: 0.03em;
-      overflow: hidden;
-/workspace/My-Web-Portfolio$ /bin/bash -lc sed -n '221,440p' index.html
-text-overflow: ellipsis;
-      white-space: nowrap;
-      transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
-    }
-
-    .link-item:hover,
-    .link-item:focus-visible {
-      transform: translateY(-1px);
-      border-color: var(--accent);
-      box-shadow: 0 0 12px rgba(86, 222, 255, 0.24);
-      outline: none;
-    }
-
-    @keyframes type-cyber {
-      0% { width: 0; }
-      68% { width: var(--type-width, 24ch); }
-      82% { width: var(--type-width, 24ch); }
-      100% { width: 0; }
-    }
-
-    @keyframes cursor-blink {
-      0%, 42% { border-right-color: rgba(86, 222, 255, 0.95); }
-      43%, 100% { border-right-color: transparent; }
-    }
-
-    @keyframes cyber-flicker {
-      0%, 93%, 100% { opacity: 1; }
-      94% { opacity: 0.72; }
-      97% { opacity: 0.9; }
-    }
-
-    @keyframes scan-jitter {
-      0%, 100% { transform: translateX(0); }
-      48% { transform: translateX(0.25px); }
-      49% { transform: translateX(-0.35px); }
-      50% { transform: translateX(0.2px); }
+      .cyber-typed {
+        clip-path: inset(0 0 0 0);
+        border-right-color: transparent;
+      }
     }
 
     @media (max-width: 900px) {
@@ -696,13 +390,41 @@ text-overflow: ellipsis;
       }
     }
   </style>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Fadhil Akbar",
+      "alternateName": ["Fadhil", "Fadhil Akbar Cariearsa", "Cariearsa"],
+      "url": "https://fadhil.qzz.io/",
+      "sameAs": [
+        "https://MindMapper.qzz.io",
+        "https://WebWorlds.vercel.app",
+        "https://TemplateDatabases.vercel.app"
+      ],
+      "knowsAbout": ["TypeScript", "JavaScript", "HTML", "CSS", "Luau", "Lua", "Python"],
+      "description": "Official Fadhil Akbar Cariearsa portfolio page for Fadhil and Fadhil Akbar search discovery.",
+      "keywords": "Fadhil, Fadhil Akbar, Cariearsa, Fadhil Akbar Cariearsa"
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Fadhil Akbar Cariearsa Portfolio",
+      "url": "https://fadhil.qzz.io/",
+      "description": "Official portfolio website for Fadhil Akbar Cariearsa.",
+      "keywords": ["Fadhil", "Fadhil Akbar", "Cariearsa", "Fadhil Akbar Cariearsa"]
+    }
+  </script>
 </head>
 <body>
   <main class="viewport">
     <section class="shell" aria-label="Cyber learning portfolio">
       <article class="panel">
         <header class="cyber-title">
-          <h1 class="hello cyber-typed">Hello, My name is Fadhil</h1>
+          <h1 class="hello cyber-typed">Hello, My name is Fadhil Akbar</h1>
+          <p class="learning-line">Official profile for Fadhil, Fadhil Akbar, and Fadhil Akbar Cariearsa</p>
           <p class="learning-line">I am currently learning TypeScript, JavaScript, HTML, CSS, Luau, Lua, and Python</p>
         </header>
 
@@ -743,6 +465,16 @@ text-overflow: ellipsis;
           <a class="link-item" href="https://WebWorlds.vercel.app" target="_blank" rel="noopener noreferrer">https://WebWorlds.vercel.app</a>
           <a class="link-item" href="https://TemplateDatabases.vercel.app" target="_blank" rel="noopener noreferrer">https://TemplateDatabases.vercel.app</a>
         </div>
+
+        <section class="seo-block" aria-label="SEO profile summary">
+          <h3 class="seo-title">Fadhil Akbar Cariearsa Official Identity</h3>
+          <p class="seo-copy">This official profile page represents Fadhil, Fadhil Akbar, and Fadhil Akbar Cariearsa. If users search for Fadhil Akbar Cariearsa, Cariearsa, Fadhil Akbar, or Fadhil, this page is the primary source for portfolio information, project links, and learning progress.</p>
+          <h3 class="seo-title">TypeScript JavaScript · JavaScript HTML · HTML CSS · CSS Luau · Luau Lua</h3>
+          <p class="seo-copy">Learning roadmap focus includes TypeScript JavaScript foundations, JavaScript HTML structure work, HTML CSS styling practice, CSS Luau experimentation, and Luau Lua scripting for interactive experiences. Current technical stack also includes Python, GitHub workflows, and modern deployment tools.</p>
+          <h3 class="seo-title">TypeScript JavaScript HTML · JavaScript HTML CSS · HTML CSS Luau</h3>
+          <p class="seo-copy">Fadhil Akbar Cariearsa builds practical projects with clear documentation, semantic markup, responsive styling, and discoverable content architecture. This portfolio emphasizes trustworthy identity signals, crawlable content, canonical URL consistency, and structured data so search engines can map Fadhil Akbar and Cariearsa query intent correctly.</p>
+          <p class="seo-copy">For recruiters, collaborators, and search crawlers, this page confirms that Fadhil Akbar Cariearsa is actively learning and shipping across web, game, and tooling ecosystems. Keywords associated with this profile include Fadhil, Fadhil Akbar, Cariearsa, and Fadhil Akbar Cariearsa, with linked projects updated as development milestones are achieved.</p>
+        </section>
       </article>
     </section>
   </main>
