@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Learning Portofolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg: #060913;
@@ -77,7 +80,7 @@
       padding: clamp(12px, 2vw, 18px);
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: flex-start;
       gap: 12px;
       min-height: 0;
       overflow: hidden;
@@ -89,13 +92,23 @@
     }
 
     .hello {
+      width: fit-content;
+      max-width: 100%;
+      font-family: "Audiowide", "Orbitron", system-ui, sans-serif;
       font-size: clamp(1.05rem, 2.4vw, 1.95rem);
-      letter-spacing: 0.07em;
+      letter-spacing: 0.09em;
       text-transform: uppercase;
-      color: #d9f6ff;
-      text-shadow: 0 0 10px rgba(86, 222, 255, 0.5);
-      animation: glitch 3s infinite steps(20, end);
-      line-height: 1.2;
+      color: #e8fcff;
+      text-shadow: 0 0 10px rgba(86, 222, 255, 0.45), 0 0 18px rgba(184, 111, 255, 0.25);
+      line-height: 1.15;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid rgba(86, 222, 255, 0.95);
+      will-change: width, opacity;
+      animation:
+        type-cyber 2.1s steps(24, end) infinite,
+        cursor-blink 0.42s steps(1, end) infinite,
+        cyber-flicker 1.8s steps(2, end) infinite;
     }
 
     .learning-line {
@@ -183,23 +196,47 @@
     }
 
 
-    @keyframes glitch {
-      0%,
+        @keyframes type-cyber {
+      0% {
+        width: 0;
+      }
+      58% {
+        width: 24ch;
+      }
+      85% {
+        width: 24ch;
+      }
       100% {
-        text-shadow: 0 0 7px rgba(86, 222, 255, 0.45), -1px 0 rgba(184, 111, 255, 0.22), 1px 0 rgba(86, 222, 255, 0.22);
-      }
-      25% {
-        text-shadow: 0 0 7px rgba(86, 222, 255, 0.45), -1px 0 rgba(184, 111, 255, 0.6), 1px 0 rgba(86, 222, 255, 0.15);
-      }
-      50% {
-        text-shadow: 0 0 7px rgba(86, 222, 255, 0.45), 2px 0 rgba(184, 111, 255, 0.2), -2px 0 rgba(86, 222, 255, 0.4);
-      }
-      75% {
-        text-shadow: 0 0 7px rgba(86, 222, 255, 0.45), -2px 0 rgba(184, 111, 255, 0.18), 2px 0 rgba(86, 222, 255, 0.55);
+        width: 0;
       }
     }
 
-    @media (max-width: 900px) {
+    @keyframes cursor-blink {
+      0%,
+      47% {
+        border-right-color: rgba(86, 222, 255, 0.95);
+      }
+      48%,
+      100% {
+        border-right-color: transparent;
+      }
+    }
+
+    @keyframes cyber-flicker {
+      0%,
+      95%,
+      100% {
+        opacity: 1;
+      }
+      96% {
+        opacity: 0.7;
+      }
+      98% {
+        opacity: 0.92;
+      }
+    }
+
+@media (max-width: 900px) {
       .shell {
         max-width: 560px;
         grid-template-columns: 1fr;
