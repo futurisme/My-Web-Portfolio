@@ -1,1102 +1,306 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Roblox Studio - Explorer & Script Editor</title>
-<style>
-    /* --- KONFIGURASI WARNA & VARIABEL --- */
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Learning Portofolio</title>
+  <style>
     :root {
-        --bg-dark: #1e1e1e;
-        --bg-darker: #171717;
-        --bg-light: #2d2d2d;
-        --bg-hover: #2e2e2e;
-        --bg-select: #094771;
-        --text-main: #cccccc;
-        --text-dim: #858585;
-        --border-color: #3e3e3e;
-        --accent-blue: #007acc;
-        --accent-green: #4ec9b0;
-        
-        --row-height: 22px;
-        --font-size: 13px;
-        --indent: 20px;
-        --editor-font: 'Consolas', 'Monaco', 'Courier New', monospace;
+      --bg: #060913;
+      --bg-card: rgba(12, 20, 38, 0.75);
+      --line: rgba(86, 222, 255, 0.35);
+      --text: #e8f8ff;
+      --muted: #9ad1e8;
+      --accent: #56deff;
+      --accent-2: #b86fff;
+      --radius: 14px;
+      --shadow: 0 0 0 1px rgba(86, 222, 255, 0.22), 0 12px 32px rgba(39, 134, 255, 0.22);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
+    html,
     body {
-        background-color: var(--bg-darker);
-        color: var(--text-main);
-        font-family: 'Segoe UI', system-ui, sans-serif;
-        font-size: var(--font-size);
-        overflow: hidden;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        user-select: none;
-        -webkit-font-smoothing: antialiased;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: "Orbitron", "Segoe UI", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(53, 130, 255, 0.2), transparent 48%),
+        radial-gradient(circle at 90% 90%, rgba(184, 111, 255, 0.2), transparent 52%),
+        linear-gradient(145deg, #04070f 0%, #080f1d 55%, #0b1222 100%);
+      color: var(--text);
     }
 
-    /* ===== TOPBAR (Menu Bar) ===== */
-    .topbar {
-        height: 40px;
-        background: linear-gradient(180deg, #2d2d2d 0%, #252525 100%);
-        border-bottom: 1px solid #1a1a1a;
-        display: flex;
-        align-items: center;
-        padding: 0 15px;
-        gap: 20px;
-        flex-shrink: 0;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(rgba(86, 222, 255, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(86, 222, 255, 0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: 0.25;
     }
 
-    .logo {
-        font-weight: 700;
-        font-size: 15px;
-        color: #fff;
-        letter-spacing: 0.5px;
+    .viewport {
+      height: 100dvh;
+      padding: clamp(10px, 2vw, 18px);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
     }
 
-    .menu-item {
-        padding: 8px 12px;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background 0.2s;
-        font-size: 12px;
-        color: var(--text-dim);
+    .shell {
+      width: min(1080px, 100%);
+      height: 100%;
+      max-height: 760px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: linear-gradient(165deg, rgba(9, 17, 34, 0.88), rgba(5, 12, 23, 0.95));
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45), 0 0 24px rgba(86, 222, 255, 0.16);
+      padding: clamp(12px, 2vw, 22px);
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: clamp(10px, 1.5vw, 16px);
+      overflow: hidden;
     }
 
-    .menu-item:hover { 
-        background: var(--bg-hover); 
-        color: var(--text-main);
+    .panel {
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--bg-card);
+      box-shadow: var(--shadow);
+      padding: clamp(12px, 2vw, 18px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 0;
+      overflow: hidden;
     }
 
-    /* ===== MAIN WORKSPACE (Split View) ===== */
-    .workspace {
-        flex: 1;
-        display: flex;
-        overflow: hidden;
+    .cyber-title {
+      display: grid;
+      gap: 8px;
     }
 
-    /* --- EXPLORER PANEL (Kiri) --- */
-    .explorer-panel {
-        width: 300px;
-        min-width: 200px;
-        max-width: 500px;
-        background-color: var(--bg-dark);
-        border-right: 1px solid var(--border-color);
-        display: flex;
-        flex-direction: column;
-        transition: width 0.3s ease;
+    .hello {
+      font-size: clamp(1.05rem, 2.4vw, 1.95rem);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: #d9f6ff;
+      text-shadow: 0 0 10px rgba(86, 222, 255, 0.5);
+      animation: glitch 3s infinite steps(20, end);
+      line-height: 1.2;
     }
 
-    .panel-header {
-        height: 32px;
-        background-color: var(--bg-light);
-        border-bottom: 1px solid var(--border-color);
-        display: flex;
-        align-items: center;
-        padding: 0 12px;
-        font-weight: 600;
-        font-size: 11px;
-        letter-spacing: 0.8px;
-        text-transform: uppercase;
-        color: var(--text-dim);
-        flex-shrink: 0;
+    .learning-line {
+      font-size: clamp(0.62rem, 1.2vw, 0.82rem);
+      color: var(--muted);
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      line-height: 1.35;
     }
 
-    .explorer-scroller {
-        flex: 1;
-        overflow-y: auto;
-        overflow-x: hidden;
-        padding: 8px 0;
+    .lang-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
     }
 
-    /* Custom Scrollbar */
-    .explorer-scroller::-webkit-scrollbar { width: 12px; }
-    .explorer-scroller::-webkit-scrollbar-track { background: var(--bg-dark); }
-    .explorer-scroller::-webkit-scrollbar-thumb { 
-        background: #3e3e3e; 
-        border: 3px solid var(--bg-dark); 
-        border-radius: 6px; 
-    }
-    .explorer-scroller::-webkit-scrollbar-thumb:hover { background: #4e4e4e; }
-
-    /* Tree Structure */
-    ul { list-style: none; padding: 0; margin: 0; }
-    ul ul { 
-        padding-left: var(--indent); 
-        position: relative;
-    }
-
-    /* Guide Lines */
-    ul ul::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 10px;
-        border-left: 1px solid #383838;
-        opacity: 0.5;
+    .lang-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 40px;
+      padding: 9px 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(86, 222, 255, 0.35);
+      background: linear-gradient(135deg, rgba(16, 35, 62, 0.78), rgba(15, 25, 47, 0.86));
+      color: #ecfbff;
+      font-size: clamp(0.66rem, 1.15vw, 0.78rem);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      white-space: nowrap;
     }
 
-    li { position: relative; }
-
-    .row {
-        display: flex;
-        align-items: center;
-        height: var(--row-height);
-        cursor: pointer;
-        padding: 0 8px 0 4px;
-        white-space: nowrap;
-        transition: background 0.08s ease;
-        border-radius: 3px;
-        margin: 1px 4px;
+    .lang-chip svg {
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+      stroke: var(--accent);
+      fill: none;
+      stroke-width: 1.8;
+      filter: drop-shadow(0 0 6px rgba(86, 222, 255, 0.45));
     }
 
-    .row:hover { background-color: var(--bg-hover); }
-    .row.selected { 
-        background-color: var(--bg-select); 
-        color: #fff; 
+    .portfolio-panel {
+      justify-content: flex-start;
+      gap: 14px;
     }
 
-    .toggle-box {
-        width: 18px;
-        height: 100%;
-        display: flex;
-        align-items: center;
+    .section-title {
+      font-size: clamp(0.95rem, 1.9vw, 1.4rem);
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: #f2fbff;
+      text-shadow: 0 0 8px rgba(86, 222, 255, 0.38);
+    }
+
+    .links {
+      display: grid;
+      gap: 9px;
+      width: 100%;
+    }
+
+    .link-item {
+      display: block;
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 10px;
+      text-decoration: none;
+      border: 1px solid rgba(184, 111, 255, 0.42);
+      color: #f7f2ff;
+      background: linear-gradient(135deg, rgba(66, 28, 112, 0.42), rgba(19, 27, 57, 0.75));
+      font-size: clamp(0.68rem, 1.22vw, 0.84rem);
+      letter-spacing: 0.04em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .link-item:hover,
+    .link-item:focus-visible {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+      box-shadow: 0 0 14px rgba(86, 222, 255, 0.3);
+      outline: none;
+    }
+
+
+    @keyframes glitch {
+      0%,
+      100% {
+        text-shadow: 0 0 7px rgba(86, 222, 255, 0.45), -1px 0 rgba(184, 111, 255, 0.22), 1px 0 rgba(86, 222, 255, 0.22);
+      }
+      25% {
+        text-shadow: 0 0 7px rgba(86, 222, 255, 0.45), -1px 0 rgba(184, 111, 255, 0.6), 1px 0 rgba(86, 222, 255, 0.15);
+      }
+      50% {
+        text-shadow: 0 0 7px rgba(86, 222, 255, 0.45), 2px 0 rgba(184, 111, 255, 0.2), -2px 0 rgba(86, 222, 255, 0.4);
+      }
+      75% {
+        text-shadow: 0 0 7px rgba(86, 222, 255, 0.45), -2px 0 rgba(184, 111, 255, 0.18), 2px 0 rgba(86, 222, 255, 0.55);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .shell {
+        max-width: 560px;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+      }
+
+      .lang-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .lang-chip {
+        min-height: 35px;
         justify-content: center;
-        flex-shrink: 0;
-        opacity: 0.6;
+        font-size: clamp(0.56rem, 1.35vw, 0.7rem);
+        padding: 8px 6px;
+        gap: 6px;
+      }
     }
 
-    .toggle-box svg {
-        width: 10px; 
-        height: 10px; 
-        fill: currentColor; 
-        transition: transform 0.2s ease;
-    }
+    @media (max-width: 620px) {
+      .viewport {
+        padding: 8px;
+      }
 
-    li.collapsed > .row > .toggle-box svg { transform: rotate(-90deg); }
-    li.leaf > .row > .toggle-box { visibility: hidden; }
-
-    .icon-box {
-        width: 16px;
-        height: 16px;
-        margin-right: 6px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-    }
-    
-    .icon-box svg { width: 100%; height: 100%; }
-
-    .label {
-        flex: 1;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        line-height: var(--row-height);
-        font-size: 13px;
-    }
-
-    li.collapsed > ul { display: none; }
-
-    /* --- EDITOR PANEL (Kanan) --- */
-    .editor-panel {
-        flex: 1;
-        background-color: var(--bg-darker);
-        display: flex;
-        flex-direction: column;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-    }
-
-    .editor-panel.active {
-        opacity: 1;
-        pointer-events: all;
-    }
-
-    /* Tab Bar */
-    .tabs-bar {
-        height: 36px;
-        background-color: var(--bg-light);
-        border-bottom: 1px solid var(--border-color);
-        display: flex;
-        align-items: flex-end;
-        overflow-x: auto;
-        overflow-y: hidden;
-        flex-shrink: 0;
-    }
-
-    .tabs-bar::-webkit-scrollbar { height: 0; }
-
-    .tab {
-        min-width: 120px;
-        max-width: 200px;
-        height: 32px;
-        background-color: var(--bg-dark);
-        border-right: 1px solid var(--border-color);
-        display: flex;
-        align-items: center;
-        padding: 0 12px;
-        cursor: pointer;
-        transition: background 0.15s;
-        position: relative;
+      .shell {
+        border-radius: 16px;
+        padding: 10px;
         gap: 8px;
+      }
+
+      .panel {
+        padding: 10px;
+        gap: 8px;
+      }
+
+      .hello {
+        font-size: clamp(0.82rem, 4.3vw, 1.14rem);
+      }
+
+      .learning-line {
+        font-size: clamp(0.48rem, 2.2vw, 0.58rem);
+      }
+
+      .lang-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 6px;
+      }
+
+      .lang-chip {
+        min-height: 31px;
+        font-size: 0.54rem;
+        padding: 6px;
+      }
+
+      .lang-chip svg {
+        width: 13px;
+        height: 13px;
+      }
+
+      .section-title {
+        font-size: clamp(0.75rem, 4.2vw, 1rem);
+      }
+
+      .link-item {
+        padding: 8px 9px;
+        font-size: clamp(0.56rem, 2.2vw, 0.66rem);
+      }
+
     }
-
-    .tab:hover { background-color: var(--bg-hover); }
-    
-    .tab.active {
-        background-color: var(--bg-darker);
-        border-bottom: 2px solid var(--accent-blue);
-        height: 34px;
-    }
-
-    .tab-icon {
-        width: 14px;
-        height: 14px;
-        flex-shrink: 0;
-    }
-
-    .tab-label {
-        flex: 1;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        font-size: 12px;
-    }
-
-    .tab-close {
-        width: 16px;
-        height: 16px;
-        border-radius: 3px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: opacity 0.15s, background 0.15s;
-    }
-
-    .tab:hover .tab-close { opacity: 0.6; }
-    .tab-close:hover { opacity: 1 !important; background: rgba(255,255,255,0.1); }
-
-    /* Editor Content Area */
-    .editor-content {
-        flex: 1;
-        display: none;
-        overflow: hidden;
-    }
-
-    .editor-content.active { display: flex; }
-
-    .code-editor {
-        flex: 1;
-        display: flex;
-        overflow: hidden;
-        font-family: var(--editor-font);
-        font-size: 14px;
-        line-height: 20px;
-    }
-
-    /* Line Numbers */
-    .line-numbers {
-        background-color: var(--bg-dark);
-        color: var(--text-dim);
-        text-align: right;
-        padding: 16px 16px 16px 20px;
-        user-select: none;
-        border-right: 1px solid var(--border-color);
-        min-width: 60px;
-        overflow: hidden;
-    }
-
-    .line-numbers div {
-        height: 20px;
-        font-size: 13px;
-        color: #858585;
-    }
-
-    /* Code Area */
-    .code-area {
-        flex: 1;
-        padding: 16px;
-        overflow: auto;
-        background-color: var(--bg-darker);
-        color: var(--text-main);
-        white-space: pre;
-        font-family: inherit;
-        line-height: inherit;
-    }
-
-    .code-area::-webkit-scrollbar { width: 14px; height: 14px; }
-    .code-area::-webkit-scrollbar-track { background: var(--bg-darker); }
-    .code-area::-webkit-scrollbar-thumb { 
-        background: #424242; 
-        border: 3px solid var(--bg-darker); 
-        border-radius: 7px; 
-    }
-    .code-area::-webkit-scrollbar-thumb:hover { background: #4e4e4e; }
-
-    /* Syntax Highlighting */
-    .keyword { color: #569cd6; font-weight: 600; }
-    .string { color: #ce9178; }
-    .comment { color: #6a9955; font-style: italic; }
-    .function { color: #dcdcaa; }
-    .variable { color: #9cdcfe; }
-    .number { color: #b5cea8; }
-    .type { color: #4ec9b0; }
-
-    /* Empty State */
-    .empty-state {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        color: var(--text-dim);
-        gap: 12px;
-    }
-
-    .empty-state svg {
-        width: 64px;
-        height: 64px;
-        opacity: 0.3;
-    }
-
-    .empty-state p {
-        font-size: 14px;
-        opacity: 0.7;
-    }
-
-    /* ===== RESPONSIVE DESIGN ===== */
-    @media (max-width: 768px) {
-        .explorer-panel {
-            position: absolute;
-            left: 0;
-            top: 40px;
-            bottom: 0;
-            width: 280px;
-            z-index: 100;
-            transform: translateX(-100%);
-            transition: transform 0.3s ease;
-            box-shadow: 4px 0 16px rgba(0,0,0,0.5);
-        }
-
-        .explorer-panel.mobile-open {
-            transform: translateX(0);
-        }
-
-        .menu-item { font-size: 11px; padding: 6px 10px; }
-    }
-
-    @media (max-width: 480px) {
-        .topbar { padding: 0 10px; gap: 10px; }
-        .logo { font-size: 13px; }
-        .explorer-panel { width: 100%; }
-        .tab { min-width: 100px; padding: 0 8px; }
-    }
-
-    /* Mobile Toggle Button */
-    .mobile-toggle {
-        display: none;
-        width: 36px;
-        height: 36px;
-        background: var(--bg-light);
-        border-radius: 4px;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: background 0.2s;
-    }
-
-    .mobile-toggle:hover { background: var(--bg-hover); }
-
-    @media (max-width: 768px) {
-        .mobile-toggle { display: flex; }
-    }
-</style>
+  </style>
 </head>
 <body>
+  <main class="viewport">
+    <section class="shell" aria-label="Learning portofolio futuristik">
+      <article class="panel">
+        <header class="cyber-title">
+          <h1 class="hello">Hello, My name is Fadhil</h1>
+          <p class="learning-line">I am currently learning Typescript, Javascript, Html, Css, Luau, Lua, Python</p>
+        </header>
 
-<!-- TOP MENU BAR -->
-<div class="topbar">
-    <div class="mobile-toggle" onclick="toggleExplorer()">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-            <rect y="3" width="20" height="2" rx="1"/>
-            <rect y="9" width="20" height="2" rx="1"/>
-            <rect y="15" width="20" height="2" rx="1"/>
-        </svg>
-    </div>
-    <div class="logo">ROBLOX STUDIO</div>
-    <div class="menu-item">File</div>
-    <div class="menu-item">Edit</div>
-    <div class="menu-item">View</div>
-    <div class="menu-item">Test</div>
-</div>
+        <section class="lang-grid" aria-label="Daftar bahasa pemrograman yang dipelajari">
+          <div class="lang-chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5z"/><path d="M9 9h2m-2 4h6m-6 4h4"/></svg>Typescript</div>
+          <div class="lang-chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M8 8h3v8M15 10c0-1-1-2-2-2s-2 1-2 2c0 3 4 2 4 5 0 1-1 2-2 2s-2-1-2-2"/></svg>Javascript</div>
+          <div class="lang-chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="M7 9h10M7 13h10M7 17h6"/></svg>Html</div>
+          <div class="lang-chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h5M8 16h7"/></svg>Css</div>
+          <div class="lang-chip"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4v16M6 8h12M6 16h12"/></svg>Luau</div>
+          <div class="lang-chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h12v12H6z"/><path d="M9 9h6v6H9z"/></svg>Lua</div>
+          <div class="lang-chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10l3 5v11H4V9z"/><path d="M9 13h6M9 17h3"/></svg>Python</div>
+        </section>
+      </article>
 
-<!-- MAIN WORKSPACE -->
-<div class="workspace">
-    <!-- EXPLORER PANEL (Kiri) -->
-    <div class="explorer-panel" id="explorerPanel">
-        <div class="panel-header">Explorer</div>
-        <div class="explorer-scroller">
-            <ul id="tree-root"></ul>
+      <article class="panel portfolio-panel">
+        <h2 class="section-title">My LEARNING Portofolio</h2>
+        <p class="learning-line">LINKS (Click / Tap)</p>
+        <div class="links">
+          <a class="link-item" href="https://MindMapper.qzz.io" target="_blank" rel="noopener noreferrer">https://MindMapper.qzz.io</a>
+          <a class="link-item" href="https://WebWorlds.vercel.app" target="_blank" rel="noopener noreferrer">https://WebWorlds.vercel.app</a>
+          <a class="link-item" href="https://TemplateDatabases.vercel.app" target="_blank" rel="noopener noreferrer">https://TemplateDatabases.vercel.app</a>
         </div>
-    </div>
-
-    <!-- EDITOR PANEL (Kanan) -->
-    <div class="editor-panel" id="editorPanel">
-        <!-- Tab Bar -->
-        <div class="tabs-bar" id="tabsBar"></div>
-
-        <!-- Editor Content (akan di-generate dinamis) -->
-        <div id="editorContainer">
-            <!-- Empty State -->
-            <div class="empty-state">
-                <svg viewBox="0 0 64 64" fill="currentColor">
-                    <path d="M8 12h48v40H8z" opacity="0.2"/>
-                    <path d="M16 20h32M16 28h24M16 36h28"/>
-                </svg>
-                <p>Select a script to view code</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    // ===== ICON LIBRARY =====
-    const ICONS = {
-        arrow: '<path d="M2 6L8 12L14 6H2Z"/>',
-        
-        workspace: '<path fill="#52BAFF" d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 12a5 5 0 110-10 5 5 0 010 10z"/><circle fill="#52BAFF" cx="8" cy="8" r="2.5"/>',
-        lighting: '<path fill="#FF9800" d="M8 1c-3 0-5 2-5 5 0 2 2 4 3 4.5V12h4v-1.5c1-.5 3-2.5 3-4.5 0-3-2-5-5-5zm-1 12h2v2H7v-2z"/>',
-        repStorage: '<path fill="#FFC107" d="M1 4h14v10H1z"/><path fill="#fff" d="M5 8h6M8 5v6" opacity="0.8"/>',
-        repFirst: '<path fill="#52BAFF" d="M1 4h14v10H1z"/><path fill="#fff" d="M4 6l3 3 3-3" opacity="0.9"/>',
-        svrScript: '<path fill="#00C853" d="M2 3h12v11H2z"/><path fill="#fff" d="M4 5h8M4 8h6" opacity="0.7"/>',
-        svrStorage: '<path fill="#52BAFF" d="M2 3h12v11H2z"/><rect fill="#fff" x="4" y="6" width="8" height="5" opacity="0.5"/>',
-        folder: '<path fill="#FFC107" d="M1 3h5l2 2h7v9H1z"/>',
-        part: '<path fill="#E0E0E0" d="M2 4l6-3 6 3v8l-6 3-6-3V4z" opacity="0.9"/>',
-        model: '<path fill="#fff" d="M2 13h4V9H2v4zm5 0h4V9H7v4zm5 0h4V9h-4v4zM2 8h4V4H2v4zm5 0h4V4H7v4zm5 0h4V4h-4v4z"/>',
-        script: '<path fill="#9E9E9E" d="M3 2h10v12H3z"/><path fill="#fff" d="M5 5h6M5 8h6M5 11h4"/>',
-        local: '<path fill="#52BAFF" d="M3 2h10v12H3z"/><path fill="#fff" d="M8 10a2 2 0 100-4 2 2 0 000 4zm-2 3h4c0-1.5-1-2-2-2s-2 .5-2 2z"/>',
-        module: '<path fill="#AB47BC" d="M3 2h10v12H3z"/><path fill="#fff" d="M5 11l2-2-2-2M9 11l-2-2 2-2"/>',
-        screenGui: '<rect stroke="#00C853" stroke-width="2" fill="none" x="2" y="3" width="12" height="10"/>',
-        frame: '<rect fill="#E0E0E0" opacity="0.5" x="2" y="4" width="12" height="8"/>',
-        sound: '<path fill="#E040FB" d="M2 5v6h4l5 5V0L6 5H2z"/>',
-        chat: '<path fill="#52BAFF" d="M2 2h12v9H2zM4 14l3-3"/>',
-        players: '<path fill="#E0E0E0" d="M8 8a3 3 0 100-6 3 3 0 000 6zm-5 7h10c0-2-2-3-5-3s-5 1-5 3z"/>'
-    };
-
-    // ===== MOCK CODE DATABASE =====
-    const CODE_DATABASE = {
-        "ControlScript": `-- Player Control Script
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local UserInputService = game:GetService("UserInputService")
-
-local player = Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local humanoid = character:WaitForChild("Humanoid")
-
--- Movement Configuration
-local WALK_SPEED = 16
-local JUMP_POWER = 50
-
--- Initialize Controls
-function setupControls()
-    humanoid.WalkSpeed = WALK_SPEED
-    humanoid.JumpPower = JUMP_POWER
-    
-    print("Controls initialized for", player.Name)
-end
-
--- Handle Input
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if gameProcessed then return end
-    
-    if input.KeyCode == Enum.KeyCode.Space then
-        humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
-    end
-end)
-
-setupControls()`,
-
-        "GameCore": `-- Server Game Core
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local ServerStorage = game:GetService("ServerStorage")
-local Players = game:GetService("Players")
-
-local DataManager = require(script.DataManager)
-local Matchmaking = require(script.Matchmaking)
-
--- Game Configuration
-local CONFIG = {
-    MAX_PLAYERS = 12,
-    ROUND_TIME = 300,
-    LOBBY_TIME = 15
-}
-
-local gameState = "Lobby"
-local activePlayers = {}
-
--- Initialize Game Systems
-function initializeGame()
-    print("[GameCore] Initializing game systems...")
-    
-    DataManager.init()
-    Matchmaking.init(CONFIG.MAX_PLAYERS)
-    
-    setupPlayerEvents()
-    startGameLoop()
-end
-
--- Player Connection Handler
-function setupPlayerEvents()
-    Players.PlayerAdded:Connect(function(player)
-        print(player.Name .. " joined the game")
-        table.insert(activePlayers, player)
-        DataManager.loadPlayerData(player)
-    end)
-    
-    Players.PlayerRemoving:Connect(function(player)
-        DataManager.savePlayerData(player)
-    end)
-end
-
--- Main Game Loop
-function startGameLoop()
-    while true do
-        if gameState == "Lobby" then
-            wait(CONFIG.LOBBY_TIME)
-            if #activePlayers >= 2 then
-                gameState = "Playing"
-                Matchmaking.startMatch(activePlayers)
-            end
-        elseif gameState == "Playing" then
-            wait(CONFIG.ROUND_TIME)
-            gameState = "Ending"
-        end
-        
-        wait(1)
-    end
-end
-
-initializeGame()`,
-
-        "DataManager": `-- Data Management Module
-local DataStoreService = game:GetService("DataStoreService")
-local playerDataStore = DataStoreService:GetDataStore("PlayerData")
-
-local DataManager = {}
-local sessionData = {}
-
--- Default Player Data Structure
-local DEFAULT_DATA = {
-    coins = 100,
-    level = 1,
-    experience = 0,
-    inventory = {},
-    settings = {
-        music = true,
-        sfx = true
-    }
-}
-
--- Initialize Module
-function DataManager.init()
-    print("[DataManager] Module initialized")
-end
-
--- Load Player Data
-function DataManager.loadPlayerData(player)
-    local success, data = pcall(function()
-        return playerDataStore:GetAsync(player.UserId)
-    end)
-    
-    if success and data then
-        sessionData[player.UserId] = data
-        print("Loaded data for", player.Name)
-    else
-        sessionData[player.UserId] = DEFAULT_DATA
-        print("Created new data for", player.Name)
-    end
-    
-    return sessionData[player.UserId]
-end
-
--- Save Player Data
-function DataManager.savePlayerData(player)
-    local data = sessionData[player.UserId]
-    if not data then return end
-    
-    local success = pcall(function()
-        playerDataStore:SetAsync(player.UserId, data)
-    end)
-    
-    if success then
-        print("Saved data for", player.Name)
-    else
-        warn("Failed to save data for", player.Name)
-    end
-end
-
--- Get Player Data
-function DataManager.getData(player)
-    return sessionData[player.UserId]
-end
-
--- Update Player Data
-function DataManager.updateData(player, key, value)
-    local data = sessionData[player.UserId]
-    if data then
-        data[key] = value
-    end
-end
-
-return DataManager`,
-
-        "Matchmaking": `-- Matchmaking System Module
-local Matchmaking = {}
-
-local maxPlayers = 12
-local currentMatch = nil
-local queue = {}
-
-function Matchmaking.init(max)
-    maxPlayers = max
-    print("[Matchmaking] System ready - Max players:", maxPlayers)
-end
-
-function Matchmaking.addToQueue(player)
-    if not table.find(queue, player) then
-        table.insert(queue, player)
-        print(player.Name .. " added to queue")
-    end
-end
-
-function Matchmaking.removeFromQueue(player)
-    local index = table.find(queue, player)
-    if index then
-        table.remove(queue, index)
-    end
-end
-
-function Matchmaking.startMatch(players)
-    currentMatch = {
-        players = players,
-        startTime = os.time(),
-        status = "active"
-    }
-    
-    print("[Match Started] Players:", #players)
-    
-    for _, player in pairs(players) do
-        -- Teleport to arena, setup teams, etc
-        Matchmaking.removeFromQueue(player)
-    end
-end
-
-function Matchmaking.endMatch()
-    if currentMatch then
-        print("[Match Ended] Duration:", os.time() - currentMatch.startTime)
-        currentMatch = nil
-    end
-end
-
-return Matchmaking`,
-
-        "LoadingSystem": `-- Loading Screen System
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local ContentProvider = game:GetService("ContentProvider")
-local Players = game:GetService("Players")
-
-local player = Players.LocalPlayer
-local playerGui = player:WaitForChild("PlayerGui")
-
--- Remove Default Loading Screen
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
--- Create Custom Loading GUI
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "LoadingScreen"
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = playerGui
-
-local frame = Instance.new("Frame")
-frame.Size = UDim2.new(1, 0, 1, 0)
-frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-frame.Parent = screenGui
-
-local titleLabel = Instance.new("TextLabel")
-titleLabel.Size = UDim2.new(0, 400, 0, 60)
-titleLabel.Position = UDim2.new(0.5, -200, 0.4, 0)
-titleLabel.BackgroundTransparency = 1
-titleLabel.Text = "LOADING GAME..."
-titleLabel.TextSize = 32
-titleLabel.Font = Enum.Font.GothamBold
-titleLabel.TextColor3 = Color3.new(1, 1, 1)
-titleLabel.Parent = frame
-
-local progressBar = Instance.new("Frame")
-progressBar.Size = UDim2.new(0, 400, 0, 8)
-progressBar.Position = UDim2.new(0.5, -200, 0.5, 0)
-progressBar.BackgroundColor3 = Color3.fromRGB(0, 122, 204)
-progressBar.BorderSizePixel = 0
-progressBar.Parent = frame
-
--- Preload Game Assets
-local assets = {}
-for _, descendant in pairs(game:GetDescendants()) do
-    if descendant:IsA("ImageLabel") or descendant:IsA("Sound") then
-        table.insert(assets, descendant)
-    end
-end
-
-ContentProvider:PreloadAsync(assets, function(assetId, status)
-    local progress = (#assets > 0) and (100 / #assets) or 100
-    progressBar.Size = UDim2.new(0, math.min(400, progressBar.AbsoluteSize.X + (400 * progress / 100)), 0, 8)
-end)
-
--- Fade Out
-wait(0.5)
-screenGui:Destroy()
-print("Loading complete!")`,
-
-        "Commands": `-- Admin Commands Handler
-local Commands = {}
-
-local prefix = "!"
-local admins = {123456789, 987654321} -- User IDs
-
--- Command Registry
-local commandList = {
-    ["tp"] = function(player, args)
-        if #args < 1 then return end
-        local targetName = args[1]
-        local target = game.Players:FindFirstChild(targetName)
-        
-        if target and target.Character then
-            player.Character:MoveTo(target.Character.HumanoidRootPart.Position)
-        end
-    end,
-    
-    ["speed"] = function(player, args)
-        local speed = tonumber(args[1]) or 16
-        player.Character.Humanoid.WalkSpeed = speed
-    end,
-    
-    ["kill"] = function(player, args)
-        local targetName = args[1]
-        local target = game.Players:FindFirstChild(targetName)
-        
-        if target and target.Character then
-            target.Character.Humanoid.Health = 0
-        end
-    end,
-    
-    ["respawn"] = function(player)
-        player:LoadCharacter()
-    end
-}
-
--- Check if player is admin
-function Commands.isAdmin(player)
-    return table.find(admins, player.UserId) ~= nil
-end
-
--- Parse and execute command
-function Commands.execute(player, message)
-    if not message:sub(1, 1) == prefix then return end
-    if not Commands.isAdmin(player) then return end
-    
-    local args = message:sub(2):split(" ")
-    local cmd = table.remove(args, 1):lower()
-    
-    if commandList[cmd] then
-        commandList[cmd](player, args)
-        print("[Admin]", player.Name, "executed:", cmd)
-    end
-end
-
-return Commands`
-    };
-
-    // ===== DATA HIERARKI =====
-    const data = [
-        { n: "Workspace", i: "workspace", c: [
-            { n: "Camera", i: "part" },
-            { n: "Baseplate", i: "part", c: [{n: "Texture", i: "part"}] },
-            { n: "SpawnLocation", i: "part", c: [{n: "Decal", i: "part"}] },
-            { n: "Map", i: "folder", c: [
-                { n: "CityCenter", i: "model", c: [
-                    { n: "Roads", i: "folder", c: [{n: "Asphalt", i: "part"}, {n: "Lines", i: "part"}] },
-                    { n: "Buildings", i: "folder", c: [{n: "Skyscraper", i: "model"}, {n: "Shop", i: "model"}] }
-                ]}
-            ]}
-        ]},
-        { n: "Players", i: "players", c: [
-            { n: "LocalPlayer", i: "players", c: [
-                { n: "PlayerGui", i: "folder", c: [{n: "MainHUD", i: "screenGui"}] },
-                { n: "PlayerScripts", i: "folder", c: [{n: "ControlScript", i: "local", isScript: true}]}
-            ]}
-        ]},
-        { n: "Lighting", i: "lighting", c: [
-            { n: "Sky", i: "part" }, { n: "Bloom", i: "part" }, { n: "SunRays", i: "part" }
-        ]},
-        { n: "ReplicatedFirst", i: "repFirst", c: [
-            { n: "LoadingSystem", i: "local", isScript: true, c: [{n: "Config", i: "module"}]}
-        ]},
-        { n: "ReplicatedStorage", i: "repStorage", c: [
-            { n: "Shared", i: "folder", c: [
-                { n: "Events", i: "folder", c: [{n: "OnHit", i: "part"}, {n: "OnData", i: "part"}] },
-                { n: "Items", i: "folder", c: [{n: "Sword", i: "model"}, {n: "Potion", i: "model"}] }
-            ]}
-        ]},
-        { n: "ServerScriptService", i: "svrScript", c: [
-            { n: "GameCore", i: "script", isScript: true, c: [
-                { n: "DataManager", i: "module", isScript: true },
-                { n: "Matchmaking", i: "module", isScript: true }
-            ]},
-            { n: "AdminSystem", i: "folder", c: [{n: "Commands", i: "script", isScript: true}]}
-        ]},
-        { n: "ServerStorage", i: "svrStorage", c: [
-            { n: "Maps", i: "folder", c: [{n: "Map1", i: "model"}, {n: "Map2", i: "model"}]}
-        ]},
-        { n: "StarterGui", i: "folder", c: [
-            { n: "MainMenu", i: "screenGui", c: [{n: "PlayBtn", i: "frame"}, {n: "SettingsBtn", i: "frame"}]}
-        ]},
-        { n: "StarterPack", i: "folder", c: [
-            { n: "Tool", i: "part", c: [{n: "Handle", i: "part"}]}
-        ]},
-        { n: "SoundService", i: "sound", c: [
-            { n: "BGM", i: "sound"}, { n: "SFX", i: "folder"}
-        ]},
-        { n: "Chat", i: "chat", c: [
-            { n: "ChatService", i: "folder", c: [{n: "ChatModules", i: "folder"}]}
-        ]}
-    ];
-
-    // ===== STATE MANAGEMENT =====
-    let openTabs = [];
-    let activeTabId = null;
-
-    // ===== BUILD EXPLORER TREE =====
-    function buildHTML(nodes) {
-        let html = '';
-        for (let node of nodes) {
-            const hasKids = node.c && node.c.length > 0;
-            const iconSvg = ICONS[node.i] || ICONS.part;
-            const scriptClass = node.isScript ? ' data-script="true"' : '';
-            
-            html += `
-            <li class="${hasKids ? 'expanded' : 'leaf'}" data-name="${node.n}"${scriptClass}>
-                <div class="row">
-                    <div class="toggle-box">
-                        ${hasKids ? `<svg viewBox="0 0 16 16">${ICONS.arrow}</svg>` : ''}
-                    </div>
-                    <div class="icon-box">
-                        <svg viewBox="0 0 16 16">${iconSvg}</svg>
-                    </div>
-                    <span class="label">${node.n}</span>
-                </div>
-                ${hasKids ? `<ul>${buildHTML(node.c)}</ul>` : ''}
-            </li>`;
-        }
-        return html;
-    }
-
-    document.getElementById('tree-root').innerHTML = buildHTML(data);
-
-    // ===== SYNTAX HIGHLIGHTER =====
-    function highlightCode(code) {
-        return code
-            .replace(/\b(local|function|end|if|then|else|elseif|for|while|do|return|true|false|nil|and|or|not|in|repeat|until)\b/g, '<span class="keyword">$1</span>')
-            .replace(/"([^"]*)"/g, '<span class="string">"$1"</span>')
-            .replace(/'([^']*)'/g, '<span class="string">\'$1\'</span>')
-            .replace(/--(.+)$/gm, '<span class="comment">--$1</span>')
-            .replace(/\b([A-Z][a-zA-Z0-9]*)\b/g, '<span class="type">$1</span>')
-            .replace(/\b(\d+)\b/g, '<span class="number">$1</span>');
-    }
-
-    // ===== OPEN SCRIPT IN EDITOR =====
-    function openScript(scriptName, iconType) {
-        // Check if already open
-        const existing = openTabs.find(tab => tab.name === scriptName);
-        if (existing) {
-            switchTab(existing.id);
-            return;
-        }
-
-        // Get code from database
-        const code = CODE_DATABASE[scriptName] || `-- ${scriptName}\n-- No code available`;
-        
-        // Create tab
-        const tabId = 'tab-' + Date.now();
-        const tab = {
-            id: tabId,
-            name: scriptName,
-            icon: iconType,
-            code: code
-        };
-        
-        openTabs.push(tab);
-        renderTabs();
-        renderEditor(tab);
-        switchTab(tabId);
-        
-        // Show editor panel
-        document.getElementById('editorPanel').classList.add('active');
-    }
-
-    // ===== RENDER TABS =====
-    function renderTabs() {
-        const tabsBar = document.getElementById('tabsBar');
-        tabsBar.innerHTML = openTabs.map(tab => `
-            <div class="tab ${tab.id === activeTabId ? 'active' : ''}" data-tab-id="${tab.id}" onclick="switchTab('${tab.id}')">
-                <div class="tab-icon">
-                    <svg viewBox="0 0 16 16">${ICONS[tab.icon]}</svg>
-                </div>
-                <span class="tab-label">${tab.name}</span>
-                <div class="tab-close" onclick="event.stopPropagation(); closeTab('${tab.id}')">
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
-                        <path d="M1 1L11 11M11 1L1 11" stroke="currentColor" stroke-width="2"/>
-                    </svg>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    // ===== RENDER EDITOR CONTENT =====
-    function renderEditor(tab) {
-        const container = document.getElementById('editorContainer');
-        
-        // Remove empty state if exists
-        const emptyState = container.querySelector('.empty-state');
-        if (emptyState) emptyState.remove();
-        
-        // Check if editor already exists
-        if (!document.getElementById(tab.id)) {
-            const lines = tab.code.split('\n');
-            const lineNumbers = lines.map((_, i) => `<div>${i + 1}</div>`).join('');
-            const highlightedCode = highlightCode(tab.code);
-            
-            const editorHTML = `
-                <div class="editor-content" id="${tab.id}">
-                    <div class="code-editor">
-                        <div class="line-numbers">${lineNumbers}</div>
-                        <div class="code-area">${highlightedCode}</div>
-                    </div>
-                </div>
-            `;
-            
-            container.insertAdjacentHTML('beforeend', editorHTML);
-        }
-    }
-
-    // ===== SWITCH TAB =====
-    function switchTab(tabId) {
-        activeTabId = tabId;
-        
-        // Update tab styles
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        const activeTab = document.querySelector(`[data-tab-id="${tabId}"]`);
-        if (activeTab) activeTab.classList.add('active');
-        
-        // Update editor visibility
-        document.querySelectorAll('.editor-content').forEach(e => e.classList.remove('active'));
-        const activeEditor = document.getElementById(tabId);
-        if (activeEditor) activeEditor.classList.add('active');
-    }
-
-    // ===== CLOSE TAB =====
-    function closeTab(tabId) {
-        const index = openTabs.findIndex(tab => tab.id === tabId);
-        if (index === -1) return;
-        
-        openTabs.splice(index, 1);
-        
-        // Remove editor content
-        const editor = document.getElementById(tabId);
-        if (editor) editor.remove();
-        
-        // Switch to another tab or hide editor
-        if (openTabs.length > 0) {
-            const newActiveTab = openTabs[Math.max(0, index - 1)];
-            switchTab(newActiveTab.id);
-            renderTabs();
-        } else {
-            activeTabId = null;
-            document.getElementById('editorPanel').classList.remove('active');
-            document.getElementById('tabsBar').innerHTML = '';
-            document.getElementById('editorContainer').innerHTML = `
-                <div class="empty-state">
-                    <svg viewBox="0 0 64 64" fill="currentColor">
-                        <path d="M8 12h48v40H8z" opacity="0.2"/>
-                        <path d="M16 20h32M16 28h24M16 36h28"/>
-                    </svg>
-                    <p>Select a script to view code</p>
-                </div>
-            `;
-        }
-    }
-
-    // ===== TREE INTERACTION =====
-    const treeRoot = document.getElementById('tree-root');
-
-    treeRoot.addEventListener('click', (e) => {
-        const row = e.target.closest('.row');
-        if (!row) return;
-
-        // Selection
-        const currentSelected = treeRoot.querySelector('.selected');
-        if (currentSelected) currentSelected.classList.remove('selected');
-        row.classList.add('selected');
-
-        const li = row.parentElement;
-        
-        // Check if it's a script
-        if (li.dataset.script === 'true') {
-            const scriptName = li.dataset.name;
-            const iconType = li.querySelector('.icon-box svg path') ? 
-                             Array.from(li.querySelector('.icon-box svg').children)[0].getAttribute('fill') : 'script';
-            
-            // Determine icon type
-            let icon = 'script';
-            if (scriptName.includes('Local') || li.querySelector('path[fill="#52BAFF"]')) icon = 'local';
-            else if (scriptName.includes('Module') || li.querySelector('path[fill="#AB47BC"]')) icon = 'module';
-            
-            openScript(scriptName, icon);
-        }
-
-        // Expand/Collapse
-        if (!li.classList.contains('leaf')) {
-            li.classList.toggle('collapsed');
-        }
-    });
-
-    // ===== MOBILE TOGGLE =====
-    function toggleExplorer() {
-        document.getElementById('explorerPanel').classList.toggle('mobile-open');
-    }
-
-    // Close explorer when clicking outside on mobile
-    document.addEventListener('click', (e) => {
-        if (window.innerWidth <= 768) {
-            const explorerPanel = document.getElementById('explorerPanel');
-            const mobileToggle = document.querySelector('.mobile-toggle');
-            
-            if (!explorerPanel.contains(e.target) && !mobileToggle.contains(e.target)) {
-                explorerPanel.classList.remove('mobile-open');
-            }
-        }
-    });
-
-</script>
-
+      </article>
+    </section>
+  </main>
 </body>
 </html>
