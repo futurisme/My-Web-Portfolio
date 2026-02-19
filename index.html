@@ -78,6 +78,10 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     html,
     body {
       width: 100%;
@@ -126,6 +130,7 @@
 
     .nav-link,
     .nav-email {
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -141,6 +146,22 @@
       text-transform: uppercase;
     }
 
+    .nav-link.is-active-nav {
+      transform: translateY(-1px) scale(0.99);
+      border-color: rgba(86, 222, 255, 0.9);
+      box-shadow: 0 0 18px rgba(86, 222, 255, 0.35);
+    }
+
+    .nav-link:hover,
+    .nav-link:focus-visible,
+    .nav-email:hover,
+    .nav-email:focus-visible {
+      transform: translateY(-1px);
+      box-shadow: 0 0 16px rgba(86, 222, 255, 0.22);
+      border-color: rgba(86, 222, 255, 0.7);
+      outline: none;
+    }
+
     .nav-email {
       border-color: rgba(57, 255, 20, 0.58);
       box-shadow: 0 0 14px rgba(57, 255, 20, 0.18);
@@ -148,17 +169,16 @@
     }
 
     #about,
-    #portfolio,
-    #contact {
-      scroll-margin-top: 64px;
+    #portfolio {
+      scroll-margin-top: 74px;
     }
 
     .viewport {
-      min-height: 100dvh;
+      height: calc(100dvh - 56px);
       padding: clamp(8px, 1.5vw, 14px);
-      display: grid;
-      place-items: center;
-      overflow: visible;
+      overflow-x: hidden;
+      overflow-y: auto;
+      scroll-behavior: smooth;
     }
 
     .shell {
@@ -173,6 +193,7 @@
       grid-template-columns: 1.08fr 1fr;
       gap: clamp(8px, 1.2vw, 12px);
       overflow: visible;
+      margin-inline: auto;
     }
 
     .panel {
@@ -512,7 +533,10 @@
 
       .nav-email { width: 100%; }
 
-      .viewport { padding: 8px 6px 14px; }
+      .viewport {
+        height: calc(100dvh - 64px);
+        padding: 8px 6px 14px;
+      }
 
       .shell {
         min-height: auto;
@@ -666,7 +690,6 @@
     <nav class="nav-links" aria-label="Superfast navigation">
       <a class="nav-link" href="#about">About</a>
       <a class="nav-link" href="#portfolio">Portfolio</a>
-      <a class="nav-link" href="#contact">Contact</a>
     </nav>
     <a class="nav-email" id="contact" href="mailto:FadhilAkbarCariearsaIndonesia@gmail.com">FadhilAkbarCariearsaIndonesia@gmail.com</a>
   </header>
@@ -718,7 +741,7 @@
           <a class="link-item" href="https://TemplateDatabases.vercel.app" target="_blank" rel="noopener noreferrer">https://TemplateDatabases.vercel.app</a>
         </div>
 
-        <section class="seo-block" aria-label="SEO profile summary">
+        <section class="seo-block" id="portfolio-seo" aria-label="SEO profile summary">
           <h3 class="seo-title">Fadhil Akbar Cariearsa Official Identity</h3>
           <p class="seo-copy">This official profile page represents Fadhil, Fadhil Akbar, and Fadhil Akbar Cariearsa. It is the primary canonical source for portfolio information, project links, and current learning progress.</p>
           <h3 class="seo-title">Core Learning Focus</h3>
@@ -827,6 +850,44 @@
       setSize();
       window.addEventListener('resize', setSize, { passive: true });
       draw();
+    })();
+  </script>
+
+  <script>
+    (() => {
+      const navLinks = document.querySelectorAll('.top-nav .nav-link[href^="#"]');
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const scrollToTarget = (target) => {
+        const scroller = document.querySelector('.viewport');
+        const nav = document.querySelector('.top-nav');
+        const offset = (nav?.offsetHeight || 0) + 10;
+        if (!scroller) return;
+
+        if (target === '#about') {
+          scroller.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' });
+          return;
+        }
+
+        if (target === '#portfolio') {
+          scroller.scrollTo({ top: scroller.scrollHeight, behavior: prefersReduced ? 'auto' : 'smooth' });
+          return;
+        }
+
+        const el = document.querySelector(target);
+        if (!el) return;
+        const top = el.getBoundingClientRect().top - scroller.getBoundingClientRect().top + scroller.scrollTop - offset;
+        scroller.scrollTo({ top: Math.max(0, top), behavior: prefersReduced ? 'auto' : 'smooth' });
+      };
+
+      navLinks.forEach((link) => {
+        link.addEventListener('click', (event) => {
+          event.preventDefault();
+          scrollToTarget(link.getAttribute('href'));
+          link.classList.add('is-active-nav');
+          setTimeout(() => link.classList.remove('is-active-nav'), 220);
+        });
+      });
     })();
   </script>
 </body>
