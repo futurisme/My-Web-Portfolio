@@ -10,6 +10,10 @@
       "use": "@vercel/static"
     },
     {
+      "src": "favicon.ico",
+      "use": "@vercel/static"
+    },
+    {
       "src": "favicon.svg",
       "use": "@vercel/static"
     },
@@ -28,7 +32,7 @@
   ],
   "routes": [
     { "handle": "filesystem" },
-    { "src": "^/favicon.ico$", "dest": "/favicon.svg" },
+    { "src": "^/favicon.ico$", "dest": "/favicon.ico" },
     { "src": "^/(.*)$", "dest": "/index.html" }
   ]
 }
