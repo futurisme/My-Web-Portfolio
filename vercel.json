@@ -1,5 +1,18 @@
 {
   "version": 2,
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.fadhil.qzz.io"
+        }
+      ],
+      "destination": "https://fadhil.qzz.io/$1",
+      "permanent": true
+    }
+  ],
   "builds": [
     {
       "src": "index.html",
