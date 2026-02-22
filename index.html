@@ -1019,6 +1019,38 @@
     })();
   </script>
 
+
+  <script>
+    (() => {
+      const images = document.querySelectorAll('img.project-image, img.asset-image');
+      if (!images.length) return;
+
+      const buildCandidates = (fileName) => [
+        `./public/images/${fileName}`,
+        `public/images/${fileName}`,
+        `./images/${fileName}`,
+        `images/${fileName}`,
+        `/public/images/${fileName}`,
+        `/images/${fileName}`
+      ];
+
+      images.forEach((image) => {
+        const currentSrc = image.getAttribute('src') || '';
+        const fileName = currentSrc.split('/').pop();
+        if (!fileName) return;
+
+        const candidates = buildCandidates(fileName).filter((path, index, arr) => arr.indexOf(path) === index && path !== currentSrc);
+        let pointer = 0;
+
+        image.addEventListener('error', () => {
+          if (pointer >= candidates.length) return;
+          image.src = candidates[pointer];
+          pointer += 1;
+        });
+      });
+    })();
+  </script>
+
   <script>
     (() => {
       const navLinks = document.querySelectorAll('.top-nav .nav-link[href^="#"]');
