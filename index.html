@@ -188,7 +188,7 @@
     }
 
     .shell {
-      width: 100%;
+      width: min(100%, 1240px);
       max-width: 1240px;
       min-height: 620px;
       border: 1px solid var(--line);
@@ -199,8 +199,9 @@
       display: grid;
       grid-template-columns: 1.08fr 1fr;
       gap: clamp(8px, 1.2vw, 12px);
-      overflow: visible;
-      margin-inline: 0;
+      overflow-x: clip;
+      overflow-y: visible;
+      margin-inline: auto;
     }
 
     .panel {
@@ -268,6 +269,7 @@
       font-family: "Share Tech Mono", "Rajdhani", sans-serif;
       overflow-wrap: anywhere;
       word-break: break-word;
+      max-width: 100%;
     }
 
     .lang-grid,
@@ -357,6 +359,8 @@
       color: #ddf6ff;
       border-bottom: 1px solid rgba(86, 222, 255, 0.14);
       background: rgba(7, 24, 45, 0.72);
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
     .collapse-toggle::-webkit-details-marker {
@@ -548,6 +552,11 @@
       50% { transform: translateX(0.2px); }
     }
 
+    .panel > *,
+    .portfolio-tab > * {
+      max-width: 100%;
+    }
+
     .panel,
     .link-item,
     .lang-chip,
@@ -620,15 +629,23 @@
 
     @media (min-width: 901px) {
       .viewport {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
         padding-inline: clamp(10px, 2vw, 22px);
-      }
-
-      .shell {
-        margin-inline: 0;
       }
     }
 
     @media (max-width: 900px) {
+      .cyber-typed {
+        width: 100%;
+        max-width: 100%;
+        white-space: normal;
+        clip-path: inset(0 0 0 0);
+        border-right-color: transparent;
+        animation: cyber-flicker 3.2s infinite;
+      }
+
       .shell {
         max-width: 720px;
         min-height: auto;
@@ -911,6 +928,14 @@
             <article class="image-card">
               <img class="asset-image" src="./public/images/Webworlds.jpg" alt="WebWorlds asset preview" loading="lazy" decoding="async" width="1200" height="675" />
               <a class="project-link" href="https://webworlds.vercel.app" target="_blank" rel="noopener noreferrer">WebWorlds Asset</a>
+            </article>
+            <article class="image-card">
+              <img class="asset-image" src="./public/images/TemplateDatabase.jpg" alt="TemplateDatabases asset preview" loading="lazy" decoding="async" width="1200" height="675" />
+              <a class="project-link" href="https://templatedatabases.vercel.app/" target="_blank" rel="noopener noreferrer">TemplateDatabases Asset</a>
+            </article>
+            <article class="image-card">
+              <img class="asset-image" src="./public/images/Fadhil.jpeg" alt="Portfolio profile asset preview" loading="lazy" decoding="async" width="1200" height="675" />
+              <a class="project-link" href="https://fadhil.qzz.io/" target="_blank" rel="noopener noreferrer">Fadhil Profile Asset</a>
             </article>
           </div>
         </section>
