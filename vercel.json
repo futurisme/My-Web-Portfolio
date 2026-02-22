@@ -12,40 +12,5 @@
       "destination": "https://fadhil.qzz.io/$1",
       "permanent": true
     }
-  ],
-  "builds": [
-    {
-      "src": "index.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "public/**",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "favicon.ico",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "favicon.svg",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "robots.txt",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "sitemap.xml",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "site.webmanifest",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "^/favicon.ico$", "dest": "/favicon.ico" },
-    { "src": "^/(.*)$", "dest": "/index.html" }
   ]
 }

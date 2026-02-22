@@ -13,7 +13,7 @@ A futuristic, engaging, and interactive panel-based portfolio, designed with gla
 
 1. **Clone or Fork this Repository**
    ```bash
-   git clone https://github.com/FadhilAkbarC/My-Web-Portfolio.git
+   git clone https://github.com/futurisme/My-Web-Portfolio.git
    ```
 2. **Open `index.html`** directly in your browser to view the portfolio locally, or edit files as needed.
 
@@ -34,7 +34,7 @@ You can also tweak colors, backgrounds, and neon/glassmorphism effects in the `s
 2. Scroll down to the “Pages” section.
 3. Set the source branch to `main` and use `/ (root)` for the folder.
 4. Save your changes. Your site will be available at `https://<your-username>.github.io/My-Web-Portfolio/`.
-   - Example: https://fadhilakbarc.github.io/My-Web-Portfolio/
+   - Example: https://futurisme.github.io/My-Web-Portfolio/
 
 All features work out of the box—no server or build pipeline needed!
 
