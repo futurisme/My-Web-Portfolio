@@ -12,5 +12,14 @@
       "destination": "https://fadhil.qzz.io/$1",
       "permanent": true
     }
+  ],
+  "routes": [
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/.*",
+      "dest": "/index.html"
+    }
   ]
 }
