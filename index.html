@@ -369,58 +369,12 @@
       padding: 8px;
     }
 
-    .seo-block {
-      margin-top: 2px;
-      padding: 8px;
-      border: 1px solid rgba(86, 222, 255, 0.25);
-      border-radius: 8px;
-      background: rgba(8, 16, 30, 0.45);
-      display: grid;
-      gap: 6px;
-    }
-
-    .seo-title {
-      font-size: clamp(0.6rem, 1vw, 0.78rem);
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: #d6f4ff;
-    }
-
     .seo-copy {
       font-size: clamp(0.54rem, 0.95vw, 0.68rem);
       line-height: 1.45;
       color: #bde8ff;
       font-family: "Rajdhani", "Share Tech Mono", sans-serif;
       letter-spacing: 0.04em;
-    }
-
-    .signal-list,
-    .faq-list {
-      display: grid;
-      gap: 6px;
-    }
-
-    .signal-item,
-    .faq-item {
-      border: 1px solid rgba(86, 222, 255, 0.22);
-      border-radius: 8px;
-      background: rgba(6, 18, 34, 0.5);
-      padding: 7px;
-    }
-
-    .signal-item strong,
-    .faq-item strong {
-      color: #e5fbff;
-      font-size: clamp(0.56rem, 0.92vw, 0.7rem);
-      letter-spacing: 0.02em;
-    }
-
-    .signal-item p,
-    .faq-item p {
-      margin-top: 4px;
-      font-size: clamp(0.52rem, 0.9vw, 0.65rem);
-      line-height: 1.45;
-      color: #b6ddff;
     }
 
     .links {
@@ -470,7 +424,7 @@
     .project-grid,
     .image-grid {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 8px;
     }
 
@@ -735,6 +689,11 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
+      .project-grid,
+      .image-grid {
+        grid-template-columns: 1fr;
+      }
+
       .switcher-btn:last-child {
         grid-column: 1 / -1;
       }
@@ -912,11 +871,11 @@
               <a class="project-link" href="https://webworlds.vercel.app" target="_blank" rel="noopener noreferrer">https://webworlds.vercel.app</a>
             </article>
             <article class="project-card">
-              <img class="project-image" src="public/images/Mindmapper.jpg" alt="TemplateDatabases project preview" loading="lazy" decoding="async" width="1200" height="675" />
-              <a class="project-link" href="https://TemplateDatabases.vercel.app" target="_blank" rel="noopener noreferrer">https://TemplateDatabases.vercel.app</a>
+              <img class="project-image" src="public/images/TemplateDatabase.jpg" alt="TemplateDatabases project preview" loading="lazy" decoding="async" width="1200" height="675" />
+              <a class="project-link" href="https://templatedatabases.vercel.app/" target="_blank" rel="noopener noreferrer">https://templatedatabases.vercel.app/</a>
             </article>
             <article class="project-card">
-              <img class="project-image" src="public/images/Webworlds.jpg" alt="Portfolio profile preview" loading="lazy" decoding="async" width="1200" height="675" />
+              <img class="project-image" src="public/images/Fadhil.jpeg" alt="Portfolio profile preview" loading="lazy" decoding="async" width="1200" height="675" />
               <a class="project-link" href="https://fadhil.qzz.io/" target="_blank" rel="noopener noreferrer">https://fadhil.qzz.io/</a>
             </article>
           </div>
@@ -941,44 +900,10 @@
           <div class="links">
             <a class="link-item" href="https://MindMapper.qzz.io" target="_blank" rel="noopener noreferrer">MindMapper Documentation</a>
             <a class="link-item" href="https://webworlds.vercel.app" target="_blank" rel="noopener noreferrer">WebWorlds Documentation</a>
-            <a class="link-item" href="https://TemplateDatabases.vercel.app" target="_blank" rel="noopener noreferrer">TemplateDatabases Documentation</a>
+            <a class="link-item" href="https://templatedatabases.vercel.app/" target="_blank" rel="noopener noreferrer">TemplateDatabases Documentation</a>
           </div>
           <div class="doc-item">
-            <p class="seo-copy">Semua kategori tetap berada pada URL utama, dan bisa dibuka lewat tombol Projects, Image, dan Documentation tanpa pindah halaman.</p>
-          </div>
-        </section>
-
-        <section class="seo-block" id="portfolio-seo" aria-label="SEO profile summary">
-          <h3 class="seo-title">Fadhil Akbar Cariearsa Official Identity</h3>
-          <p class="seo-copy">This official profile page represents Fadhil, Fadhil Akbar, and Fadhil Akbar Cariearsa. It is the primary canonical source for portfolio information, project links, and current learning progress.</p>
-          <h3 class="seo-title">Core Learning Focus</h3>
-          <p class="seo-copy">The current roadmap includes TypeScript, JavaScript, HTML, CSS, Luau, Lua, and Python. Project work is focused on practical web experiences, game scripting, and reliable deployment workflows.</p>
-          <h3 class="seo-title">Indexing and Trust Signals</h3>
-          <p class="seo-copy">This portfolio uses semantic HTML, consistent canonical tags, robots and sitemap references, and linked structured data. These help search engines understand the identity relationship between Fadhil, Fadhil Akbar, and Cariearsa.</p>
-          <div class="signal-list" aria-label="Knowledge panel and indexing signals">
-            <div class="signal-item">
-              <strong>Official entity signal: Fadhil Akbar Cariearsa</strong>
-              <p>Canonical identity aliases: Fadhil, Fadhil Akbar, and Cariearsa. This page consolidates those names into one official profile for crawlers and users.</p>
-            </div>
-            <div class="signal-item">
-              <strong>Primary topics and technologies</strong>
-              <p>TypeScript, JavaScript, HTML, CSS, Luau, Lua, Python, Git, GitHub, Roblox Studio, Next.js, Vercel, Railway, MongoDB, and PostgreSQL.</p>
-            </div>
-            <div class="signal-item">
-              <strong>Fresh content updates</strong>
-              <p><time datetime="2026-02-19">2026-02-19</time>: Refined structured data graph, improved metadata consistency, and upgraded the visual rain animation density for stronger crawl signals and user engagement.</p>
-            </div>
-          </div>
-          <h3 class="seo-title">FAQ for Search Discovery</h3>
-          <div class="faq-list" aria-label="Frequently asked questions about Fadhil Akbar Cariearsa">
-            <article class="faq-item">
-              <strong>Who is Fadhil Akbar Cariearsa?</strong>
-              <p>Fadhil Akbar Cariearsa is a developer profile for web and game projects. The official source for this identity is this canonical portfolio page.</p>
-            </article>
-            <article class="faq-item">
-              <strong>Where can I verify the official links for Fadhil Akbar?</strong>
-              <p>Verified project links are listed in this profile and include MindMapper, WebWorlds, and TemplateDatabases as active public references.</p>
-            </article>
+            <p class="seo-copy">Navigasi dibuat ringkas agar portofolio tetap fokus ke hasil project, visual asset, dan dokumentasi penting.</p>
           </div>
         </section>
       </article>
