@@ -110,12 +110,13 @@
     .project-link,
     .link-item {
       border-radius: 999px;
-      border: 1px solid var(--line);
-      background: #fff;
+      border: 1.4px solid rgba(143, 101, 73, 0.7);
+      background: linear-gradient(135deg, rgba(255, 247, 239, 0.96), rgba(233, 204, 179, 0.9));
       color: #2b2a29;
       text-decoration: none;
       font-weight: 600;
       letter-spacing: 0.03em;
+      box-shadow: inset 0 0 0 1px rgba(255, 240, 224, 0.7);
       transition: all 0.2s ease;
     }
 
@@ -275,7 +276,7 @@
       .section-title { font-size: 0.9rem; }
       .learning-line { font-size: 0.74rem; }
       .lang-grid,
-      .tool-grid,
+      .tool-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
       .project-grid,
       .image-grid,
       .portfolio-switcher { grid-template-columns: 1fr; }
