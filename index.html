@@ -220,6 +220,29 @@
       padding: 9px;
     }
 
+    .project-card,
+    .image-card {
+      display: grid;
+      gap: 6px;
+    }
+
+    .stack-header {
+      min-height: 14px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(143, 101, 73, 0.35);
+      background: linear-gradient(135deg, rgba(255, 250, 245, 0.95), rgba(241, 224, 207, 0.9));
+      color: #5d4e43;
+      font-size: 0.56rem;
+      line-height: 1.2;
+      letter-spacing: 0.02em;
+      font-weight: 700;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     .lang-chip {
       display: flex;
       align-items: center;
@@ -272,7 +295,15 @@
     }
 
     .project-link,
-    .link-item { display: block; padding: 7px 10px; font-size: 0.74rem; text-align: center; }
+    .link-item {
+      display: block;
+      padding: 7px 10px;
+      font-size: 0.74rem;
+      text-align: center;
+      border-width: 2px;
+      border-color: rgba(132, 93, 66, 0.95);
+      box-shadow: inset 0 0 0 1px rgba(255, 241, 225, 0.9), 0 1px 0 rgba(115, 76, 53, 0.32);
+    }
     .links { display: grid; gap: 8px; }
     .seo-copy { font-size: 0.75rem; color: #5c5550; line-height: 1.4; }
 
@@ -485,18 +516,22 @@
           
           <div class="project-grid">
             <article class="project-card">
+              <p class="stack-header">Built with: Vercel · Railway · PostgreSQL · Database</p>
               <img class="project-image" src="./public/images/Mindmapper.jpg" alt="MindMapper project preview" loading="lazy" decoding="async" width="1200" height="675" />
               <a class="project-link" href="https://MindMapper.qzz.io" target="_blank" rel="noopener noreferrer">https://MindMapper.qzz.io</a>
             </article>
             <article class="project-card">
+              <p class="stack-header">Built with: Vercel · Railway · PostgreSQL · Database</p>
               <img class="project-image" src="./public/images/WebWorlds.jpg" alt="WebWorlds project preview" loading="lazy" decoding="async" width="1200" height="675" />
               <a class="project-link" href="https://webworlds.vercel.app" target="_blank" rel="noopener noreferrer">https://webworlds.vercel.app</a>
             </article>
             <article class="project-card">
+              <p class="stack-header">Built with: Vercel · Railway · PostgreSQL · Database</p>
               <img class="project-image" src="./public/images/TemplateDatabase.jpg" alt="TemplateDatabases project preview" loading="lazy" decoding="async" width="1200" height="675" />
               <a class="project-link" href="https://templatedatabases.vercel.app/" target="_blank" rel="noopener noreferrer">https://templatedatabases.vercel.app/</a>
             </article>
             <article class="project-card">
+              <p class="stack-header">Built with: Vercel</p>
               <img class="project-image" src="./public/images/Fadhil.jpeg" alt="Portfolio profile preview" loading="lazy" decoding="async" width="1200" height="675" />
               <a class="project-link" href="https://fadhil.qzz.io/" target="_blank" rel="noopener noreferrer">https://fadhil.qzz.io/</a>
             </article>
@@ -507,18 +542,22 @@
           
           <div class="image-grid">
             <article class="image-card">
+              <p class="stack-header">Built with: Vercel · Railway · PostgreSQL · Database</p>
               <img class="asset-image" src="./public/images/Mindmapper.jpg" alt="MindMapper asset preview" loading="lazy" decoding="async" width="1200" height="675" />
               <a class="project-link" href="https://MindMapper.qzz.io" target="_blank" rel="noopener noreferrer">MindMapper Asset</a>
             </article>
             <article class="image-card">
+              <p class="stack-header">Built with: Vercel · Railway · PostgreSQL · Database</p>
               <img class="asset-image" src="./public/images/WebWorlds.jpg" alt="WebWorlds asset preview" loading="lazy" decoding="async" width="1200" height="675" />
               <a class="project-link" href="https://webworlds.vercel.app" target="_blank" rel="noopener noreferrer">WebWorlds Asset</a>
             </article>
             <article class="image-card">
+              <p class="stack-header">Built with: Vercel · Railway · PostgreSQL · Database</p>
               <img class="asset-image" src="/public/images/TemplateDatabase.jpg" alt="TemplateDatabases asset preview" loading="lazy" decoding="async" width="1200" height="675" />
               <a class="project-link" href="https://templatedatabases.vercel.app/" target="_blank" rel="noopener noreferrer">TemplateDatabases Asset</a>
             </article>
             <article class="image-card">
+              <p class="stack-header">Built with: Vercel</p>
               <img class="asset-image" src="/public/images/Fadhil.jpeg" alt="Portfolio profile asset preview" loading="lazy" decoding="async" width="1200" height="675" />
               <a class="project-link" href="https://fadhil.qzz.io/" target="_blank" rel="noopener noreferrer">Fadhil Profile Asset</a>
             </article>
